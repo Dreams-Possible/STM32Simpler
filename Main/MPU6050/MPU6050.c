@@ -72,7 +72,17 @@ void MPU6050_GetTemperature()
 //MPU6050读取陀螺仪值
 void MPU6050_GetGyroscope()
 {
-	MPU_Get_Gyroscope(&MPU6050_G_X,&MPU6050_G_Y,&MPU6050_G_Z);
+	//滤波
+	static int16_t MPU6050_G_X_New=0;
+	static int16_t MPU6050_G_Y_New=0;
+	static int16_t MPU6050_G_Z_New=0;
+
+	MPU_Get_Gyroscope(&MPU6050_G_X_New,&MPU6050_G_Y_New,&MPU6050_G_Z_New);
+
+	MPU6050_G_X=0.3*MPU6050_G_X+0.7*MPU6050_G_X_New;
+	MPU6050_G_Y=0.3*MPU6050_G_Y+0.7*MPU6050_G_Y_New;
+	MPU6050_G_Z=0.3*MPU6050_G_Z+0.7*MPU6050_G_Z_New;
+
 }
 
 //MPU6050读取加速度值
@@ -84,18 +94,34 @@ void MPU6050_GetAccelerometer()
 //MPU6050读取姿态角数据
 void MPU6050_GetAttitudeAngle()
 {
-//	//解决yaw值正负乱飘
-//	float MPU6050_Yaw_New=0;
-	MPU6050_DMP_Get_Data(&MPU6050_Pitch,&MPU6050_Roll,&MPU6050_Yaw);
+	//滤波
+	static float MPU6050_Pitch_New=0;
+	static float MPU6050_Roll_New=0;
+	static float MPU6050_Yaw_New=0;
 
-//	if(fabs(MPU6050_Yaw-MPU6050_Yaw_New)>90)
-//	{
-//		MPU6050_Yaw_New=-MPU6050_Yaw_New;
-//	}
-//
-//	MPU6050_Yaw=0.3*MPU6050_Yaw+0.7*MPU6050_Yaw_New;
-	//MPU6050_Yaw=MPU6050_Yaw_New;
+	MPU6050_DMP_Get_Data(&MPU6050_Pitch_New,&MPU6050_Roll_New,&MPU6050_Yaw_New);
+
+
+	MPU6050_Pitch=0.3*MPU6050_Pitch+0.7*MPU6050_Pitch_New;
+	MPU6050_Roll=0.3*MPU6050_Roll+0.7*MPU6050_Roll_New;
+	MPU6050_Yaw=0.3*MPU6050_Yaw+0.7*MPU6050_Yaw_New;
+
 }
+
+
+//MPU6050数值显示
+void MPU6050_Printf()
+{
+	USART_UART_Printf("P=%.2f\n",MPU6050_Pitch);
+	USART_UART_Printf("R=%.2f\n",MPU6050_Roll);
+	USART_UART_Printf("Y=%.2f\n",MPU6050_Yaw);
+
+//	USART_UART_Printf("X=%d\n",MPU6050_G_X);
+//	USART_UART_Printf("Y=%d\n",MPU6050_G_Y);
+//	USART_UART_Printf("Z=%d\n",MPU6050_G_Z);
+}
+
+
 
 //定时刷新数据
 //该部分在ExternalInterrup（外部中断）中

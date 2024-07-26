@@ -32,7 +32,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		//MPU6050_GetTemperature();
 
 		//MPU6050读取陀螺仪值
-		//MPU6050_GetGyroscope();
+		MPU6050_GetGyroscope();
 
 		//MPU6050读取加速度值
 		//MPU6050_GetAccelerometer();

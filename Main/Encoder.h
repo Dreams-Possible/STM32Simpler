@@ -10,12 +10,12 @@
 
 
 //解释所用的定时器
+extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
-extern TIM_HandleTypeDef htim4;
 
 //重定义编码器所用的定时器
-#define Encoder1_Timer htim3
-#define Encoder2_Timer htim4
+#define Encoder1_Timer htim2
+#define Encoder2_Timer htim3
 
 //测得的速度（自带正负）
 extern float Encoder1_Speed;
