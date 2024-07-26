@@ -1,5 +1,5 @@
-# STMSimpler
-  STMSimpler基于HAL库和CUBEIDE，旨在为STM初学者提供一个易于上手，易于移植的尽可能完善的底层驱动库。
+# STM32Simpler
+  STM32Simpler基于HAL库和CUBEIDE，旨在为STM初学者提供一个易于上手，易于移植的尽可能完善的底层驱动库。
 
   这个项目目前还处于筹备状态，相关使用说明还没有完成编写，请酌情使用。欢迎合作交流，欢迎改进斧正。
 
