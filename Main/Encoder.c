@@ -28,12 +28,15 @@ void Encoder_Detection()
 	__HAL_TIM_SetCounter(&Encoder1_Timer,0);
 	//检测
 	int16_t Encoder2_Speed_New=(int16_t)__HAL_TIM_GetCounter(&Encoder2_Timer);
-//	//硬件调整
-//	Encoder2_Speed_New=-Encoder2_Speed_New;
+	//硬件调整
+	Encoder2_Speed_New=-Encoder2_Speed_New;
 	//滤波
 	Encoder2_Speed=0.3*Encoder2_Speed+0.7*Encoder2_Speed_New;
 	//重置
 	__HAL_TIM_SetCounter(&Encoder2_Timer,0);
+
+
+
 }
 
 //编码器数值显示

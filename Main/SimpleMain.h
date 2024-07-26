@@ -16,24 +16,26 @@
 #include<iconv.h>//包含格式转换的头文件
 //引入驱动文件
 #include"SimpleMain.h"
-
+#include"SimpleIO.h"
 #include"USART_UART.h"
 #include"Timer.h"
 #include"IIC.h"
 #include"SimpleOLED096_IIC.h"
-
+#include"24C02_IIC.h"
 #include"OLED096_IIC.h"
-
-
+#include"OLED096_SPI.h"
+#include"SPI.h"
 #include"OLED096_GUI.h"
-
-
+#include"W25Qxx.h"
+#include"SYN6288.h"
+#include"USART_JDY31.h"
 #include"Encoder.h"
 #include"Motor.h"
 #include"Controller.h"
-
+#include"USART_OpenMV.h"
 #include"MPU6050.h"
-
+#include"MainSystem.h"
+#include"SingTownAI.h"
 
 //全局初始化
 //所有的初始化函数放在这里
@@ -43,8 +45,7 @@ void MainInitization();
 //效果等同于在main.c中写
 void MainSimple();
 
-//初始化完成标志
-extern uint8_t MainInitization_Flag;
+
 
 
 

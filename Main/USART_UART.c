@@ -15,8 +15,6 @@ void USART_UART_Initialization()
 	HAL_UARTEx_ReceiveToIdle_DMA(&USART_UART,USART_UART_Data,sizeof(USART_UART_Data));
 	//关闭DMA接收过半中断
 	__HAL_DMA_DISABLE_IT(&USART_UART_RX,DMA_IT_HT);
-
-	memset(USART_UART_Data,0,sizeof(USART_UART_Data));
 }
 
 //串口格式化输出
@@ -61,10 +59,6 @@ void USART_UART_Printf_DMA(const char *CharacterString,...)
 void USART_UART_Process()
 {
 	//USART_UART_Printf("RV\n");
-
-	//遥控接收部分
-	RemoteReceiver();
-	memset(USART_UART_Data,0,sizeof(USART_UART_Data));
 }
 
 

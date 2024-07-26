@@ -54,9 +54,6 @@ void MPU6050_GetAccelerometer();
 //MPU6050读取姿态角数据
 void MPU6050_GetAttitudeAngle();
 
-//MPU6050姿态角数值显示
-void MPU6050_Printf();
-
 ////////////////////////////////
 //以上内容为自行补充整合
 

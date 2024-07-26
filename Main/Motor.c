@@ -13,21 +13,8 @@ void Motor_Initialization()
 void Motor_Driver(float MotorSpeed_1,float MotorSpeed_2)
 {
 
-	#if 0
-	if(MotorSpeed_1)
-	{
-		USART_UART_Printf("MS1=%.2f\n",MotorSpeed_1);
-	}
-
-	if(MotorSpeed_2)
-	{
-		USART_UART_Printf("MS2=%.2f\n",MotorSpeed_2);
-	}
-
-	#endif//0
-
 	//硬件调整
-	MotorSpeed_1=-MotorSpeed_1;
+	MotorSpeed_2=-MotorSpeed_2;
 
 	//限制电机转速范围
 	if(MotorSpeed_1>Motor_FullSpeed)
@@ -80,6 +67,18 @@ void Motor_Driver(float MotorSpeed_1,float MotorSpeed_2)
 	}
 
 
+	#if 0
+	if(MotorSpeed_1)
+	{
+		USART_UART_Printf("MS1=%.2f\n",MotorSpeed_1);
+	}
+
+	if(MotorSpeed_2)
+	{
+		USART_UART_Printf("MS2=%.2f\n",MotorSpeed_2);
+	}
+
+	#endif//0
 }
 
 #endif//Motor_H

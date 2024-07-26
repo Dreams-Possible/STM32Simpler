@@ -8,8 +8,8 @@
 //选择工作模式：
 //OLED096_Mode_CharacterString：字符串模式，用于在特定位置显示字符串。
 //OLED096_Mode_Printf：Printf模式，用于模拟Printf命令行输出。
-//#define OLED096_Mode_CharacterString
-#define OLED096_Mode_Printf
+#define OLED096_Mode_CharacterString
+//#define OLED096_Mode_Printf
 
 
 

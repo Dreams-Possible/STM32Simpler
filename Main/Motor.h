@@ -15,13 +15,13 @@
 
 
 //解释所使用的定时器（通常只需要一个定时器）
-extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim2;
 
 //重定义速度控制所用的定时器和通道（通常需要一个定时器的两个通道）
 //预分频系数0，计数周期7200-1，频率均为0-7200
-#define Motor_Timer htim1
+#define Motor_Timer htim2
 #define Motor_Timer_Channel_1 TIM_CHANNEL_1
-#define Motor_Timer_Channel_2 TIM_CHANNEL_4
+#define Motor_Timer_Channel_2 TIM_CHANNEL_2
 
 //全速PWM阈值
 #define Motor_FullSpeed 100

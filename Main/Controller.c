@@ -1,6 +1,13 @@
 #include"Controller.h"
 #ifdef Controller_H
 
+//默认速度
+int16_t DefaultSpeed=0;
+//速度等级
+int16_t SpeedLevel=SpeedLevel_High;
+
+
+
 
 //遥控状态
 //0停止，1前进，2后退
@@ -8,262 +15,397 @@ uint8_t Remote_State1=0;
 //0停止，1左转，2右转
 uint8_t Remote_State2=0;
 
-//速度等级
-float SpeedLevel=SpeedLevel_Low;
 
-
-//直立环参数
-float PID_Vertical=0;
-//速度环参数
-float PID_Velocityt=0;
-//转向环参数
-float PID_Turn=0;
-
-//期望角度
-float Angle_Target=0;
-//期望速度
-float Speed_Target=0;
-//期望转向角度
-float Turn_Target=0;
-
-
-//直立环系数
-float Vertical_KP=-1.28;//-1.28;//-1.4;//-1.62;//-1.68;//-2.24;//-2.28;	//-2.4;//-2.28;//-2.28;//-1.56;//-1.918;//-1.92;//-1.86;//-1.82;//-1.78;//-1.78;//-1.78;//-1.78;//-1.82;//-2.84;
-float Vertical_KD=0.0148;//0.0152;//0.014;//0.0136;//0.0158;//0.0212;//0.0218;	//0.024;//0.0218;//0.0212;//0.0152;//0.0178;//0.016;//0.016;//0.014;//0.012;//0.018;//0.022;//0.028;//0.038;//0.046;
-
-//速度环系数
-float Velocity_KP=-1.68;//-1.62;//-1.8;	//-0.2;//-0.0484;//-0.484;//-0.38;//-0.52;//-0.78;//-0.88;//-1.08;//-1;
-//float Velocity_KI=0;//0;//0.00612;//0;	//0;//-0.000242;//-0.00242;//-0.0048;//-0.005;
-
-//转向环系数
-float Turn_KP=0.2;
+//定义初始速度
+float Speed1=0;
+float Speed2=0;
 
 
 
-//PID初始化
-void PID_Initization()
-{
-	Turn_Target=MPU6050_Yaw;
-}
 
-//直立环PD控制器
-//输入：期望角度、真实角度、角速度
-void Control_Vertical(float Angle_Target,float Angle_Real,int16_t G_X)
+
+uint8_t test1=0;
+
+
+
+
+//主控制模块
+void MainController()
 {
 
-	//计算直立环
-	float P=Vertical_KP*(Angle_Real-Angle_Target);
-	float D=Vertical_KD*G_X;
-	PID_Vertical=P+D;
 
-//	USART_UART_Printf("AR=%.2f\n",Angle_Real);
-//	USART_UART_Printf("AT=%.2f\n",Angle_Target);
-//	USART_UART_Printf("AE=%.2f\n",Angle_Real-Angle_Target);
-//	USART_UART_Printf("P1=%.2f\n",P);
-//	USART_UART_Printf("D1=%.2f\n",D);
-//
-//	USART_UART_Printf("CV1=%.2f\n",PID_Vertical);
+	//遥控执行部分
+	RemoteController();
+
+	//视觉辅助
+	AuxiliaryController();
+
+	//电机驱动
+	Motor_Driver(Speed1,Speed2);
+
 
 }
 
-//速度环PI控制器
-//输入：期望速度、左编码器、右编码器
-void Control_Velocity(float Speed_Target,float Encoder_Left,float Encoder_Right)
-{
 
+
+
+//遥控接收部分JDY31
+void RemoteReceiver()
+{
+	//遥控前进
+	if(USART_JDY31_Data[0]=='A')
+	{
+		Remote_State1=1;
+		//USART_JDY31_Printf("遥控前进\n");
+	}
+	//遥控停止
+	if(USART_JDY31_Data[0]=='Z'||USART_JDY31_Data[1]=='Z')
+	{
+		Remote_State1=0;
+		//USART_JDY31_Printf("遥控停止\n");
+	}
+	//遥控后退
+	if(USART_JDY31_Data[0]=='B')
+	{
+		Remote_State1=2;
+		//USART_JDY31_Printf("遥控后退\n");
+	}
+	//收到遥控左转
+	if(USART_JDY31_Data[0]=='C')
+	{
+		Remote_State2=1;
+		//USART_JDY31_Printf("遥控左转\n");
+	}
+	//收到遥控右转
+	if(USART_JDY31_Data[0]=='D')
+	{
+		Remote_State2=2;
+		//USART_JDY31_Printf("遥控右转\n");
+	}
+
+	//收到遥控停止转弯
+	if(USART_JDY31_Data[0]=='Y'||USART_JDY31_Data[1]=='Y')
+	{
+		Remote_State2=0;
+		//USART_JDY31_Printf("停止转弯\n");
+	}
+
+	//收到遥控制动
+	if(USART_JDY31_Data[0]=='X')
+	{
+		Remote_State1=0;
+		Remote_State2=0;
+		USART_JDY31_Printf("制动\n");
+
+//		test1=0;
+	}
+
+	//调整速度等级//低速
+	if(USART_JDY31_Data[0]=='E')
+	{
+		SpeedLevel=SpeedLevel_Low;
+		//USART_JDY31_Printf("遥控低速\n");
+	}
+	//调整速度等级//中速
+	if(USART_JDY31_Data[0]=='F')
+	{
+		SpeedLevel=SpeedLevel_Medium;
+		//USART_JDY31_Printf("遥控中速\n");
+	}
+	//调整速度等级//高速
+	if(USART_JDY31_Data[0]=='G')
+	{
+		SpeedLevel=SpeedLevel_High;
+		//USART_JDY31_Printf("遥控高速\n");
+	}
+
+
+
+
+
+	//测试
+	if(USART_JDY31_Data[0]=='1')
+	{
+		test1=1;
+	}
+	//测试
+	if(USART_JDY31_Data[0]=='2')
+	{
+		test1=2;
+	}
+	//测试
+	if(USART_JDY31_Data[0]=='3')
+	{
+
+		test1=3;
+	}
+	if(USART_JDY31_Data[0]=='4')
+	{
+
+		while(1)
+		{
+			Motor_Driver(0,0);
+		}
+
+
+	}
+
+
+
+
+
+}
+
+
+
+
+
+
+//遥控执行
+void RemoteController()
+{
+	//速度归零
+	Speed1=0;
+	Speed2=0;
 
 	//停止
 	if(Remote_State1==0)
 	{
-		Speed_Target=0;
+		Speed1=0;
+		Speed2=0;
 	}
 
 	//前进
 	if(Remote_State1==1)
 	{
-		Speed_Target=SpeedLevel;
+		Speed1+=SpeedLevel;
+		Speed2+=SpeedLevel;
 	}
 
 	//后退
 	if(Remote_State1==2)
 	{
-		Speed_Target=-SpeedLevel;
-	}
-
-//	//定义积分
-//	static float II=0;
-	//定义误差
-	float E=(Encoder_Left+Encoder_Right)-Speed_Target;
-//
-//	//积分
-//	II+=E;
-//	if(II>1000)
-//	{
-//		II=1000;
-//	}
-//	if(II<-1000)
-//	{
-//		II=-1000;
-//	}
-//	//检测控制状态
-//	if(Remote_State1==0)
-//	{
-//		II=0;
-//	}
-
-	//计算直立环
-	float P=Velocity_KP*E;
-//	float I=Velocity_KI*II;
-
-	PID_Velocityt=P;//+I;
-
-//	USART_UART_Printf("P2=%.2f\n",P);
-//	USART_UART_Printf("I2=%.2f\n",I);
-//	USART_UART_Printf("CV2=%.2f\n",PID_Velocityt);
-}
-
-//转向环控制器
-void Control_Turn(float Angle_Real)
-{
-	//计算转向环
-
-	//滤波
-	static float P_New=0;
-	static float P=0;
-
-	//前进//后退
-	if(Remote_State1!=0)
-	{
-		P_New=Turn_KP*(Angle_Real-Turn_Target);
-	}
-
-	//不转弯
-	if(Remote_State2==0)
-	{
-		P_New=0;
+		Speed1-=SpeedLevel;
+		Speed2-=SpeedLevel;
 	}
 
 	//左转
 	if(Remote_State2==1)
 	{
-		P_New=-20;
-		Turn_Target=Angle_Real;
+		//停止
+		if(Remote_State1==0)
+		{
+			Speed1=-SpeedLevel*0.6;
+			Speed2=SpeedLevel*0.6;
+		}else
+		{
+			Speed1*=0.2;
+			Speed2*=1.2;
+		}
 	}
 
 	//右转
 	if(Remote_State2==2)
 	{
-		P_New=20;
-		Turn_Target=Angle_Real;
+		//停止
+		if(Remote_State1==0)
+		{
+			Speed2=-SpeedLevel*0.6;
+			Speed1=SpeedLevel*0.6;
+		}else
+		{
+			Speed2*=0.2;
+			Speed1*=1.2;
+		}
 	}
-
-
-	P=0.3*P+0.7*P_New;
-
-	PID_Turn=P;
 
 }
 
-//主控制函数
-void PID_Control()
+
+
+//定义视觉辅助状态（0关闭1直行2路口）
+int8_t Auxiliary_State1=0;
+
+//视觉接收部分OpenMV
+void AuxiliaryReceiver()
 {
-	//倒下检测
-	if(MPU6050_Roll<90&&MPU6050_Roll>-90)
-	{
-		//PID控制核心
-		Control_Velocity(Speed_Target,Encoder1_Speed,Encoder2_Speed);
-		Control_Vertical(Angle_Target+PID_Velocityt,MPU6050_Roll,MPU6050_G_X);
-		Control_Turn(MPU6050_Yaw);
 
-		//电机驱动
-		Motor_Driver(PID_Vertical-PID_Turn,PID_Vertical+PID_Turn);
 
-	}else
+	//OpenMV直行
+	if(USART_OpenMV_Data[0]=='a')
 	{
-		//倒下停止
-		Motor_Driver(0,0);
-		//OLED096_Printf_IIC("Stop");
-		HAL_Delay(4000);
-		//OLED096_Printf_IIC("Run");
+		Auxiliary_State1=1;
+		//USART_JDY31_Printf("直行\n");
+		//接受数字
+		OpenMVNumber=atof((const char *)(USART_OpenMV_Data+2));
+//		USART_UART_Printf("Data=%f\n",OpenMVNumber);
+		//USART_JDY31_Printf("Data=%f\n",OpenMVNumber);
 	}
+
+	//OpenMV路口
+	if(USART_OpenMV_Data[0]=='b')
+	{
+		Auxiliary_State1=2;
+		//USART_JDY31_Printf("路口\n");
+	}
+
+	//OpenMV失去道路
+	if(USART_OpenMV_Data[0]=='c')
+	{
+		Auxiliary_State1=3;
+		//USART_JDY31_Printf("停止\n");
+	}
+
+
+
+
+
 
 }
 
 
 
-
-
-//遥控接收部分
-void RemoteReceiver()
+//视觉辅助
+//用来帮助巡线，类似于自动辅助驾驶系统
+void AuxiliaryController()
 {
-	//遥控前进
-	if(USART_UART_Data[0]=='A')
+	//直行，辅助参与
+	if(Auxiliary_State1==1)
 	{
-		Remote_State1=1;
-//		USART_UART_Printf("遥控前进\n");
-	}
-	//遥控停止
-	if(USART_UART_Data[0]=='Z'||USART_UART_Data[1]=='Z')
-	{
-		Remote_State1=0;
-//		USART_UART_Printf("遥控停止\n");
-	}
-	//遥控后退
-	if(USART_UART_Data[0]=='B')
-	{
-		Remote_State1=2;
-//		USART_UART_Printf("遥控后退\n");
-	}
-	//收到遥控左转
-	if(USART_UART_Data[0]=='C')
-	{
-		Remote_State2=1;
-//		USART_UART_Printf("遥控左转\n");
-	}
-	//收到遥控右转
-	if(USART_UART_Data[0]=='D')
-	{
-		Remote_State2=2;
-//		USART_UART_Printf("遥控右转\n");
+		//PID1比例系数
+		//float PID1_Kp=0.1*SpeedLevel;
+		float PID1_Kp=0.6;
+		//PID
+		float AdjustValue=OpenMVNumber*PID1_Kp;
+		//限幅
+		if(AdjustValue>SpeedLevel)
+		{
+			AdjustValue=SpeedLevel*0.5;
+		}
+		if(AdjustValue<-SpeedLevel)
+		{
+			AdjustValue=-SpeedLevel*0.5;
+		}
+//		USART_JDY31_Printf("Adj=%.2f\n",AdjustValue);
+		if(Remote_State1==1)
+		{
+			//调整
+			Speed1-=AdjustValue*0.5;
+			Speed2+=AdjustValue*0.5;
+		}
+//		if(Remote_State1==2)
+//		{
+//			//调整
+//			Speed1-=AdjustValue*0.5;
+//			Speed2+=AdjustValue*0.5;
+//		}
+
 	}
 
-	//收到遥控停止转弯
-	if(USART_UART_Data[0]=='Y'||USART_UART_Data[1]=='Y')
-	{
-		Remote_State2=0;
-//		USART_UART_Printf("停止转弯\n");
-	}
 
-	//收到遥控制动
-	if(USART_UART_Data[0]=='X')
-	{
-		Remote_State1=0;
-		Remote_State2=0;
-//		USART_UART_Printf("制动\n");
-	}
-
-	//调整速度等级//低速
-	if(USART_UART_Data[0]=='E')
-	{
-		SpeedLevel=SpeedLevel_Low;
-//		USART_UART_Printf("遥控低速\n");
-	}
-	//调整速度等级//中速
-	if(USART_UART_Data[0]=='F')
-	{
-		SpeedLevel=SpeedLevel_Medium;
-//		USART_UART_Printf("遥控中速\n");
-	}
-	//调整速度等级//高速
-	if(USART_UART_Data[0]=='G')
-	{
-		SpeedLevel=SpeedLevel_High;
-//		USART_UART_Printf("遥控高速\n");
-	}
 }
-
-
-
+//
+//
+////转向等待时间
+//uint8_t TurnTimer=0;
+//
+////转向等待时间
+//uint8_t TurnFlag=0;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////定义转弯历史记录
+//uint8_t TurnHistory[8]=
+//{
+//		0,
+//};
+////定义转弯次数
+//uint8_t TurnNumber=0;
+//
+//
+//
+//
+//void StartSign()
+//{
+//	if(test1==3)
+//	{
+//		Remote_State1=1;
+//	}
+//}
+//
+//
+////自动转向
+//void AutoTurn(uint8_t Direction)
+//{
+//
+//	//到达路口
+//	if(Auxiliary_State1==2)
+//	{
+//		if(Direction==0)
+//		{
+//			Remote_State1=0;
+//			USART_JDY31_Printf("路口等待\n");
+//			return;
+//		}
+//
+//	}
+//
+//	//转向
+//	if(TurnFlag==0)
+//	{
+//		//记录转向
+//		TurnHistory[TurnNumber]=Direction;
+//		++TurnNumber;
+//
+//		TurnFlag=1;
+//
+//		Remote_State1=1;
+//
+//		if(Remote_State1==1)
+//		{
+//			//SpeedLevel=SpeedLevel_Low;
+//			if(Direction==1)
+//			{//左转
+//				Remote_State2=1;
+//				USART_JDY31_Printf("路口左转\n");
+//			}
+//			if(Direction==2)
+//			{//右转
+//				Remote_State2=2;
+//				USART_JDY31_Printf("路口右转\n");
+//			}
+//		}
+//	}
+//
+//	if(TurnFlag)
+//	{
+//		//转弯中
+//		if(Auxiliary_State1!=1)
+//		{
+//			USART_JDY31_Printf("TT=%d\n",TurnTimer);
+//			++TurnTimer;
+//		}
+//		//基本回正，结束转向
+//		if(TurnTimer>42&&Auxiliary_State1==1)//&&OpenMVNumber>-30)
+//		{
+//			USART_JDY31_Printf("结束转向\n");
+//			//SpeedLevel=SpeedLevel_Medium;
+//			Remote_State2=0;
+//			TurnTimer=0;
+//			TurnFlag=0;
+//		}
+//	}
+//}
+//
+//
+//
 
 
 #endif//Control_H
