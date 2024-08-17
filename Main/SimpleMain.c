@@ -25,7 +25,7 @@ void MainInitization()
 	Motor_Initialization();
 
 	//MPU6050初始化
-	MPU6050_Initialization();
+	//MPU6050_Initialization();
 
 	//屏幕初始化
 	//OLED096_Initialization_IIC();
@@ -42,28 +42,33 @@ void MainInitization()
 //效果等同于在main.c中写
 void MainSimple()
 {
-	//PID初始化
-	PID_Initization();
+//
+//	MotorSpeed_1=50;
+//	MotorSpeed_2=50;
+//	MotorSpeed_3=50;
+//	MotorSpeed_4=50;
+//
+//	Motor_Driver();
+
+	uint32_t ID=0;
 
 	while(1)
 	{
+
+
+
+		//Encoder_Printf();
+		//USART_JDY31_Printf("here\n");
+		//MPU6050数值显示
 		//MPU6050_Printf();
 
-		if(Timer1_Flag1)
-		{
-			//触发编码器检测
-			Encoder_Detection();
-			//主控制函数
-			PID_Control();
-
-			++Timer1_FPS1;
-
-			Timer1_Flag1=0;
-
-		}
+		W25Qxx_ReadID(&ID);
+		HAL_Delay(500);
+		USART_UART_Printf("ID=%d\n",ID);
+		HAL_Delay(500);
 
 
-
+		++Timer1_FPS1;
 	}
 
 }

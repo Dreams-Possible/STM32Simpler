@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #ifndef MainSystem_H
 #define MainSystem_H
 
@@ -6,8 +6,6 @@
 
 
 
-//全流程
-void TakeSystem();
 
 #endif//MainSystem_H
 #endif//0

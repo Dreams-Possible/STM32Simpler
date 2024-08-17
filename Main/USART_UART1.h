@@ -1,6 +1,6 @@
 #if 1
-#ifndef USART_UART_H
-#define USART_UART_H
+#ifndef USART_UART1_H
+#define USART_UART1_H
 #include"SimpleMain.h"
 
 
@@ -36,21 +36,21 @@ extern UART_HandleTypeDef huart1;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 //重定义串口使用的串口号
-#define USART_UART huart1
+#define USART_UART1 huart1
 //重定义DMA使用的串口
-#define USART_UART_RX hdma_usart1_rx
-#define USART_UART_TX hdma_usart1_tx
+#define USART_UART1_RX hdma_usart1_rx
+#define USART_UART1_TX hdma_usart1_tx
 //串口接收的数据
-extern uint8_t USART_UART_Data[32];
+extern uint8_t USART_UART1_Data[32];
 
 //串口初始化（开启串口DMA中断，负责接收数据，若仅发送可不需要，必须在IDE中打开串口NVIC中断）
-void USART_UART_Initialization();
+void USART_UART1_Initialization();
 //串口格式化输出
-void USART_UART_Printf(const char *CharacterString,...);
+void USART_UART1_Printf(const char *CharacterString,...);
 //串口格式化输出DMA
-void USART_UART_Printf_DMA(const char *CharacterString,...);
+void USART_UART1_Printf_DMA(const char *CharacterString,...);
 //串口处理接收的数据
-void USART_UART_Process();
+void USART_UART1_Process();
 
 
 //
@@ -59,5 +59,5 @@ void USART_UART_Process();
 
 
 
-#endif//USART_UART_H
+#endif//USART_UART1_H
 #endif//0

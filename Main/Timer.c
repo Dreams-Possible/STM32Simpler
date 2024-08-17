@@ -2,6 +2,12 @@
 #ifdef Timer_H
 
 
+
+//开始定义定时器部分
+////////////////////////////////////////////////////////////////
+//
+
+
 //计数器1的计数值1
 uint32_t Timer1_Counter1=0;
 
@@ -36,9 +42,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*htim)
 			{
 				//使用标志位避免中断嵌套
 				Timer1_Flag1=1;
+
+				//按键扫描
+				Key_Scan_All();
+
 				//每0.1秒进入一次中断
 				if(Timer1_Counter1%100==0)
 				{
+
+					//LED流水灯Dmeo
+					LED_Dmeo();
+					Encoder_Detection();
 
 					//每1秒进入一次中断
 					if(Timer1_Counter1%1000==0)
@@ -61,5 +75,10 @@ void Timer_Printf()
 	Timer1_FPS1=0;
 }
 
+
+
+//
+////////////////////////////////////////////////////////////////
+//结束定义定时器部分
 
 #endif//Timer_H

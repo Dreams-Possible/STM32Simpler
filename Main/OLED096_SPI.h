@@ -4,9 +4,9 @@
 #include"SimpleMain.h"
 
 //该OLED屏幕使用非标准SPI协议，该引脚用来表示0指令/1数据选择
-#define SPI_CD(x) HAL_GPIO_WritePin(SPI_CD_GPIO_Port,SPI_CD_Pin,(GPIO_PinState)(x))
+#define SPI_OLED096_DC(x) HAL_GPIO_WritePin(SPI_OLED096_DC_GPIO_Port,SPI_OLED096_DC_Pin,(GPIO_PinState)(x))
 //该OLED屏幕使用非标准SPI协议，该引脚用来表示0复位
-#define SPI_RST(x) HAL_GPIO_WritePin(SPI_RST_GPIO_Port,SPI_RST_Pin,(GPIO_PinState)(x))
+#define SPI_OLED096_RES(x) HAL_GPIO_WritePin(SPI_OLED096_RES_GPIO_Port,SPI_OLED096_RES_Pin,(GPIO_PinState)(x))
 
 //写标志
 #define OLED096_Command 0

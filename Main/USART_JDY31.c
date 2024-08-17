@@ -40,13 +40,9 @@ void USART_JDY31_Printf(const char *CharacterString,...)
 //串口处理接收的数据
 void USART_JDY31_Process()
 {
-	//USART_JDY31_Printf("RV\n");
 
-	//遥控接收部分JDY31
-	RemoteReceiver();
 	//清空接收值
-	USART_JDY31_Data[0]=0;
-	USART_JDY31_Data[1]=0;
+	memset(USART_UART_Data,0,sizeof(USART_JDY31_Data));
 }
 
 

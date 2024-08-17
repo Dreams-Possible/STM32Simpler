@@ -1,10 +1,14 @@
-#if 0
+#if 1
 #ifndef W25Qxx_H
 #define W25Qxx_H
 #include"SimpleMain.h"
 
 #ifdef SPI_H
 
+
+//重定义设备
+#define W25Qxx_SPI_Start SPI_Start_2
+#define W25Qxx_SPI_End SPI_End_2
 
 //W25Qxx读ID
 void W25Qxx_ReadID(uint32_t *ID);

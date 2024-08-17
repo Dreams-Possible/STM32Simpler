@@ -6,22 +6,22 @@
 //OLED096写命令
 void OLED096_Command_SPI(uint8_t Command)
 {
-	SPI_CD(OLED096_Command);//OLED096写命令标志
+	SPI_OLED096_DC(OLED096_Command);//OLED096写命令标志
 	SPI_SendData(1,&Command);//发送数据
 }
 
 //OLED096写数据
 void OLED096_Data_SPI(uint8_t Data)
 {
-	SPI_CD(OLED096_Data);//OLED096写数据标志
+	SPI_OLED096_DC(OLED096_Data);//OLED096写数据标志
 	SPI_SendData(1,&Data);//发送数据
 }
 
 //屏幕初始化
 void OLED096_Initialization_SPI()
 {
-    SPI_RST(0);
-    SPI_RST(1);//重置屏幕状态
+    SPI_OLED096_RES(0);
+    SPI_OLED096_RES(1);//重置屏幕状态
 
     OLED096_Command_SPI(0xae);//设置显示关闭
 
@@ -119,7 +119,7 @@ void OLED096_Refresh_SPI(uint8_t Display)
     for (uint8_t a=0;a<OLED096_Width/8;++a)
     {
     	OLED096_Focus_SPI(a,0);
-		SPI_CD(1);//发送写数据
+		SPI_OLED096_DC(1);//发送写数据
 		SPI_SendData(128,OLED096_Frame_Data[a]+1);
     }
 
@@ -135,7 +135,7 @@ void OLED096_PushFrame_SPI()
     for (uint8_t a=0;a<OLED096_Width/8;++a)
     {
     	OLED096_Focus_SPI(a,0);
-		SPI_CD(1);//发送写数据
+		SPI_OLED096_DC(1);//发送写数据
 		SPI_SendData(128,OLED096_Frame_Data[a]+1);
     }
 

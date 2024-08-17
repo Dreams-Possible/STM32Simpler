@@ -10,34 +10,34 @@
 //W25Qxx读ID
 void W25Qxx_ReadID(uint32_t *ID)
 {
-	SPI_Start();
+	W25Qxx_SPI_Start();
 	SPI_ExchangeByte(W25Qxx_ReadID_BIN);
 	*ID=SPI_ExchangeByte(SPI_NoneByte);
 	*ID<<=8;
 	*ID|=SPI_ExchangeByte(SPI_NoneByte);
 	*ID<<=8;
 	*ID|=SPI_ExchangeByte(SPI_NoneByte);
-	SPI_End();
+	W25Qxx_SPI_End();
 }
 
 //W25Qxx写使能（每次写之前都需要）
 void W25Qxx_WriteEnable(void)
 {
-	SPI_Start();
+	W25Qxx_SPI_Start();
 	SPI_ExchangeByte(W25Qxx_WriteEnable_BIN);
-	SPI_End();
+	W25Qxx_SPI_End();
 }
 
 //W25Qxx等待忙
 void W25Qxx_WaitBusy(void)
 {
-	SPI_Start();
+	W25Qxx_SPI_Start();
 	SPI_ExchangeByte(W25Qxx_State_BIN);
 	while ((SPI_ExchangeByte(SPI_NoneByte)&0x01)==1)
 	{
 		//等待忙状态解除
 	}
-	SPI_End();
+	W25Qxx_SPI_End();
 }
 
 //W25Qxx写入
@@ -48,7 +48,7 @@ void W25Qxx_Write(uint32_t Address, uint8_t *Data, uint16_t DataLength)
 	W25Qxx_WaitBusy();
 	W25Qxx_WriteEnable();
 
-	SPI_Start();
+	W25Qxx_SPI_Start();
 	SPI_ExchangeByte(W25Qxx_Write_BIN);
 	SPI_ExchangeByte((uint8_t)Address>>16);
 	SPI_ExchangeByte((uint8_t)Address>>8);
@@ -57,7 +57,7 @@ void W25Qxx_Write(uint32_t Address, uint8_t *Data, uint16_t DataLength)
 	{
 		SPI_ExchangeByte(Data[a]);
 	}
-	SPI_End();
+	W25Qxx_SPI_End();
 
 }
 
@@ -69,12 +69,12 @@ void W25Qxx_Clean(uint32_t Address)
 	W25Qxx_WaitBusy();
 	W25Qxx_WriteEnable();
 
-	SPI_Start();
+	W25Qxx_SPI_Start();
 	SPI_ExchangeByte(W25Qxx_Clean_BIN);
 	SPI_ExchangeByte((uint8_t)Address>>16);
 	SPI_ExchangeByte((uint8_t)Address>>8);
 	SPI_ExchangeByte((uint8_t)Address);
-	SPI_End();
+	W25Qxx_SPI_End();
 }
 
 //W25Qxx读取
@@ -82,7 +82,7 @@ void W25Qxx_Clean(uint32_t Address)
 //地址寄存器有24位
 void W25Qxx_ReadData(uint32_t Address, uint8_t *Data, uint32_t DataLength)
 {
-	SPI_Start();
+	W25Qxx_SPI_Start();
 	SPI_ExchangeByte(W25Qxx_Read_BIN);
 	SPI_ExchangeByte((uint8_t)Address>>16);
 	SPI_ExchangeByte((uint8_t)Address>>8);
@@ -91,7 +91,7 @@ void W25Qxx_ReadData(uint32_t Address, uint8_t *Data, uint32_t DataLength)
 	{
 		Data[a]=SPI_ExchangeByte(SPI_NoneByte);
 	}
-	SPI_End();
+	W25Qxx_SPI_End();
 }
 
 #endif//SPI_H

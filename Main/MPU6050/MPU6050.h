@@ -7,9 +7,9 @@
 ////////////////////////////////
 
 
-#define MPU6050_SendData(RegisterAddress,Data) IIC_WriteByte(MPU6050_Address,RegisterAddress,Data)
+#define MPU6050_SendData(RegisterAddress,Data) IIC1_WriteByte(MPU6050_Address,RegisterAddress,Data)
 
-#define MPU6050_ReadData(RegisterAddress,DataLength,Data) IIC_ReadData(MPU6050_Address,RegisterAddress,DataLength,Data)
+#define MPU6050_ReadData(RegisterAddress,DataLength,Data) IIC1_ReadData(MPU6050_Address,RegisterAddress,DataLength,Data)
 
 
 //声明检测到的角度

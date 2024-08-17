@@ -2,7 +2,9 @@
 #ifdef USARTInterrupt_H
 
 
-
+//开始定义串口中断部分
+////////////////////////////////////////////////////////////////
+//
 
 //所有DMA串口中断（借助HAL库实现部分，在HAL库中，所有的DMA串口中断被集中在一个函数里处理）
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef*huart,uint16_t Size)
@@ -102,6 +104,10 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 }
 
 
+
+//
+////////////////////////////////////////////////////////////////
+//结束定义串口中断部分
 
 #endif//USARTInterrupt_H
 

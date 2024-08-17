@@ -3,6 +3,49 @@
 
 
 
+//开始定义SPI公共部分（片选信号）
+////////////////////////////////////////////////////////////////
+//
+
+//设备1SPI开始
+void SPI_Start_1()
+{
+	SPI_CS_1(CSMD_1);//选中设备
+}
+
+
+//设备1SPI结束
+void SPI_End_1()
+{
+	SPI_CS_1(1-CSMD_1);//取消选中设备
+}
+
+
+//设备2SPI开始
+void SPI_Start_2()
+{
+	SPI_CS_2(CSMD_2);//选中设备
+}
+
+
+//设备2SPI结束
+void SPI_End_2()
+{
+	SPI_CS_2(1-CSMD_2);//取消选中设备
+}
+
+
+
+//
+////////////////////////////////////////////////////////////////
+//结束定义SPI公共部分（片选信号）
+
+
+
+//开始定义SPI软件部分
+////////////////////////////////////////////////////////////////
+//
+
 #ifdef SPI_Software
 
 ////SPI初始化
@@ -12,17 +55,6 @@
 //	SPI_SCK(CPOL);//时钟状态：不活跃
 //}
 
-//SPI开始
-void SPI_Start()
-{
-	SPI_NSS_1(CSMD);//选中设备
-}
-
-//SPI结束
-void SPI_End()
-{
-	SPI_NSS_1(1-CSMD);//取消选中设备
-}
 
 
 //SPI发送字节（单独使用无效）
@@ -126,18 +158,17 @@ void SPI_SwapData(uint8_t *SendData,uint8_t *ReceiveData,uint8_t DataLength)
 #endif//SPI_Software
 
 
+//
+////////////////////////////////////////////////////////////////
+//结束定义SPI软件部分
 
 
 
 
 
-
-
-
-
-
-
-
+//开始定义SPI硬件部分
+////////////////////////////////////////////////////////////////
+//
 
 #ifdef SPI_Hardware
 
@@ -145,25 +176,46 @@ void SPI_SwapData(uint8_t *SendData,uint8_t *ReceiveData,uint8_t DataLength)
 void SPI_SendByte(uint8_t Byte)
 {
 	uint8_t Byte_Byte[1]={Byte};
-	HAL_SPI_Transmit(&SPI_1,Byte_Byte,1,HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&SPI_2,Byte_Byte,1,HAL_MAX_DELAY);
 
 }
+
+////SPI接收字节（单独使用无效）
+//uint8_t SPI_ExchangeByte(uint8_t Byte)
+//{
+//	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) != SET);	//等待发送数据寄存器空
+//
+//	uint8_t Byte_Byte[1]={Byte};
+//
+//	HAL_SPI_Transmit(&SPI_2,Byte_Byte,1,HAL_MAX_DELAY);
+//
+//	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) != SET);	//等待接收数据寄存器非空
+//
+//	return HAL_SPI_Receive(&SPI_2,Byte_Byte,1,HAL_MAX_DELAY);
+//}
+
+
+
 
 //SPI接收字节（单独使用无效）
-uint8_t SPI_ExchangeByte(uint8_t Byte)
+uint8_t SPI_ExchangeByte(uint8_t SendByte)
 {
-	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) != SET);	//等待发送数据寄存器空
+	uint8_t ReceiveByte=0;
 
-	uint8_t Byte_Byte[1]={Byte};
+	HAL_SPI_TransmitReceive(&SPI_2,&SendByte,&ReceiveByte,1,HAL_MAX_DELAY);
 
-	HAL_SPI_Transmit(&SPI_1,Byte_Byte,1,HAL_MAX_DELAY);
+	return ReceiveByte;
 
-	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) != SET);	//等待接收数据寄存器非空
-
-	return HAL_SPI_Receive(&SPI_1,Byte_Byte,1,HAL_MAX_DELAY);
 }
 
+
+
 #endif//SPI_Hardware
+
+
+//
+////////////////////////////////////////////////////////////////
+//结束定义SPI硬件部分
 
 
 

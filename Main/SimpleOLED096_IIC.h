@@ -1,4 +1,4 @@
-#if 0
+#if 1
 #ifndef SimpleOLED096_IIC_H
 #define SimpleOLED096_IIC_H
 #include"SimpleMain.h"

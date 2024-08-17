@@ -45,9 +45,9 @@
 #include"MPU6050.h"
 //重定义DMP库IIC读写函数
 #define i2c_write(devaddr, regaddr, size, pdata)   \
-		IIC_WriteData((devaddr<<1), regaddr, size, pdata)
+		IIC1_WriteData((devaddr<<1), regaddr, size, pdata)
 #define i2c_read(devaddr, regaddr, size, pdata)		\
-		IIC_ReadData((devaddr<<1), regaddr, size, pdata)
+		IIC1_ReadData((devaddr<<1), regaddr, size, pdata)
 ////////////////////////////////////////////////////////////////
 //以上为DMP库移植核心部分
 #define delay_ms(ms)   HAL_Delay(ms)

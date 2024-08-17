@@ -34,7 +34,7 @@ uint32_t SimpleIO_Key1_Counter=0;
 //Key1按键扫描
 void SimpleIO_Key1()
 {
-	if(Pin3_In==1)
+	if(Pin3_In==0)
 	{//当按键第一次按下开始计时
 		if(SimpleIO_Key1_Counter==0)
 		{
@@ -68,7 +68,7 @@ uint32_t SimpleIO_Key2_Counter=0;
 //Key2按键扫描
 void SimpleIO_Key2()
 {
-	if(Pin4_In==1)
+	if(Pin4_In==0)
 	{//当按键第一次按下开始计时
 		if(SimpleIO_Key2_Counter==0)
 		{

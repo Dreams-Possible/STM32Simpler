@@ -46,11 +46,11 @@ uint8_t OpenMV_Flag=0;
 //串口处理接收的数据
 void USART_OpenMV_Process()
 {
-
-	//视觉接收部分OpenMV
+	//辅助接收部分OpenMV
 	AuxiliaryReceiver();
 	//清除接收
 	memset(USART_OpenMV_Data,0,sizeof(USART_OpenMV_Data));
+
 }
 
 

@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #ifndef Infrared_H
 #define Infrared_H
 #include"SimpleMain.h"

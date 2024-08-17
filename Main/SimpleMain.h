@@ -19,7 +19,7 @@
 
 #include"USART_UART.h"
 #include"Timer.h"
-#include"IIC.h"
+#include"IIC1.h"
 #include"SimpleOLED096_IIC.h"
 
 #include"OLED096_IIC.h"
@@ -34,6 +34,11 @@
 
 #include"MPU6050.h"
 
+#include"LED.h"
+#include"Key.h"
+#include"USART_JDY31.h"
+#include"SPI.h"
+#include"W25Qxx.h"
 
 //全局初始化
 //所有的初始化函数放在这里
