@@ -17,9 +17,9 @@
 //引入驱动文件
 #include"SimpleMain.h"
 
-#include"USART_UART.h"
-#include"Timer.h"
-#include"IIC1.h"
+#include"UARTs.h"
+#include"Timers.h"
+#include"IICs.h"
 #include"SimpleOLED096_IIC.h"
 
 #include"OLED096_IIC.h"
@@ -30,15 +30,14 @@
 
 #include"Encoders.h"
 #include"Motors.h"
-#include"Controller.h"
 
 #include"MPU6050.h"
 
 #include"LEDs.h"
 #include"Keys.h"
-#include"USART_JDY31.h"
-#include"SPI.h"
-#include"W25Qxx.h"
+
+#include"SPIs.h"
+#include"W25Qx.h"
 
 //全局初始化
 //所有的初始化函数放在这里

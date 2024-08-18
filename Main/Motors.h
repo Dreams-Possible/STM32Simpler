@@ -26,6 +26,19 @@
 
 
 
+//选择电机驱动模式
+////////////////////////////////////////////////////////////////
+//
+
+//全局变量模式
+//#define Motor_GlobalMode
+//参数传递模式
+#define Motor_ParameterMode
+
+//
+////////////////////////////////////////////////////////////////
+//结束选择电机驱动模式
+
 
 
 //开始电机配置
@@ -71,11 +84,6 @@ extern TIM_HandleTypeDef htim8;
 
 
 
-//定义电机速度
-extern float Motor1_Speed;
-extern float Motor2_Speed;
-extern float Motor3_Speed;
-extern float Motor4_Speed;
 
 
 //电机1初始化（定时器开启输出PWM）
@@ -88,6 +96,17 @@ void Motor3_Initialization();
 void Motor4_Initialization();
 //所有电机初始化（定时器开启输出PWM）
 void Motors_Initialization();
+
+
+//如果是全局变量模式
+#ifdef Motor_GlobalMode
+
+//定义电机速度
+extern float volatile Motor1_Speed;
+extern float volatile Motor2_Speed;
+extern float volatile Motor3_Speed;
+extern float volatile Motor4_Speed;
+
 
 //电机1驱动
 void Motor1_Driver();
@@ -112,6 +131,36 @@ void Motor4_Printf();
 //所有电机数值显示
 void Motors_Printf();
 
+#endif//Motor_GlobalMode
+
+//如果是参数传递模式
+#ifdef Motor_ParameterMode
+
+//电机1驱动
+void Motor1_Driver(float Motor1_Speed);
+//电机2驱动
+void Motor2_Driver(float Motor2_Speed);
+//电机3驱动
+void Motor3_Driver(float Motor3_Speed);
+//电机4驱动
+void Motor4_Driver(float Motor4_Speed);
+//所有电机驱动
+void Motors_Driver(float Motor1_Speed,float Motor2_Speed,float Motor3_Speed,float Motor4_Speed);
+
+
+//电机1数值显示
+void Motor1_Printf(float Motor1_Speed);
+//电机2数值显示
+void Motor2_Printf(float Motor2_Speed);
+//电机3数值显示
+void Motor3_Printf(float Motor3_Speed);
+//电机4数值显示
+void Motor4_Printf(float Motor4_Speed);
+//所有电机数值显示
+void Motors_Printf(float Motor1_Speed,float Motor2_Speed,float Motor3_Speed,float Motor4_Speed);
+
+
+#endif//Motor_ParameterMode
 
 //
 ////////////////////////////////////////////////////////////////

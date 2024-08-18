@@ -28,14 +28,14 @@ void Key1_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key1_Scan_State=0;
 				Key1_Scan_Counter=0;
-				USART_UART_Printf("K1R\n");
+				Error_Printf("K1R\n");
 			}else
 			if(Timer1_Counter1-Key1_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key1_Scan_State;
 				Key1_Scan_Counter=0;
-				USART_UART_Printf("K1\n");
+				Error_Printf("K1\n");
 			}
 		}
 	}
@@ -62,14 +62,14 @@ void Key2_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key2_Scan_State=0;
 				Key2_Scan_Counter=0;
-				USART_UART_Printf("K2R\n");
+				Error_Printf("K2R\n");
 			}else
 			if(Timer1_Counter1-Key2_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key2_Scan_State;
 				Key2_Scan_Counter=0;
-				USART_UART_Printf("K2\n");
+				Error_Printf("K2\n");
 			}
 		}
 	}
@@ -98,14 +98,14 @@ void Key3_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key3_Scan_State=0;
 				Key3_Scan_Counter=0;
-				USART_UART_Printf("K3R\n");
+				Error_Printf("K3R\n");
 			}else
 			if(Timer1_Counter1-Key2_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key3_Scan_State;
 				Key3_Scan_Counter=0;
-				USART_UART_Printf("K3\n");
+				Error_Printf("K3\n");
 			}
 		}
 	}
@@ -134,14 +134,14 @@ void Key4_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key4_Scan_State=0;
 				Key4_Scan_Counter=0;
-				USART_UART_Printf("K4R\n");
+				Error_Printf("K4R\n");
 			}else
 			if(Timer1_Counter1-Key4_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key4_Scan_State;
 				Key4_Scan_Counter=0;
-				USART_UART_Printf("K4\n");
+				Error_Printf("K4\n");
 			}
 		}
 	}
@@ -171,14 +171,14 @@ void Key5_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key5_Scan_State=0;
 				Key5_Scan_Counter=0;
-				USART_UART_Printf("K5R\n");
+				Error_Printf("K5R\n");
 			}else
 			if(Timer1_Counter1-Key5_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key5_Scan_State;
 				Key5_Scan_Counter=0;
-				USART_UART_Printf("K5\n");
+				Error_Printf("K5\n");
 			}
 		}
 	}
@@ -207,14 +207,14 @@ void Key6_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key6_Scan_State=0;
 				Key6_Scan_Counter=0;
-				USART_UART_Printf("K6R\n");
+				Error_Printf("K6R\n");
 			}else
 			if(Timer1_Counter1-Key6_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key6_Scan_State;
 				Key6_Scan_Counter=0;
-				USART_UART_Printf("K6\n");
+				Error_Printf("K6\n");
 			}
 		}
 	}
@@ -243,14 +243,14 @@ void Key7_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key7_Scan_State=0;
 				Key7_Scan_Counter=0;
-				USART_UART_Printf("K7R\n");
+				Error_Printf("K7R\n");
 			}else
 			if(Timer1_Counter1-Key7_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key7_Scan_State;
 				Key7_Scan_Counter=0;
-				USART_UART_Printf("K7\n");
+				Error_Printf("K7\n");
 			}
 		}
 	}
@@ -279,14 +279,14 @@ void Key8_Scan()
 				//当按下时间超过一秒，取消当前按键行为并清除按键状态
 				Key8_Scan_State=0;
 				Key8_Scan_Counter=0;
-				USART_UART_Printf("K8R\n");
+				Error_Printf("K8R\n");
 			}else
 			if(Timer1_Counter1-Key8_Scan_Counter>50)
 			{
 				//每按下一次按键状态加一，通常情况应该响应每一次按键
 				++Key8_Scan_State;
 				Key8_Scan_Counter=0;
-				USART_UART_Printf("K8\n");
+				Error_Printf("K8\n");
 			}
 		}
 	}

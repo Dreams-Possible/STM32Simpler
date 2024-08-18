@@ -55,12 +55,12 @@ void MPU6050_Initialization()
 	{
 		HAL_Delay(10);
 		MPU6050_DMP_State=MPU6050_DMP_Init();
-		USART_UART_Printf("M6IntEr%d\n",MPU6050_DMP_State);
+		Error_Printf("M6IntEr%d\n",MPU6050_DMP_State);
 	}
 
 	//MPU6050状态可用
 	MPU6050_State=1;
-	USART_UART_Printf("M6IntSc\n");
+	Error_Printf("M6IntSc\n");
 }
 
 //MPU6050读取温度值
@@ -112,13 +112,13 @@ void MPU6050_GetAttitudeAngle()
 //MPU6050数值显示
 void MPU6050_Printf()
 {
-	USART_UART_Printf("P=%.2f\n",MPU6050_Pitch);
-	USART_UART_Printf("R=%.2f\n",MPU6050_Roll);
-	USART_UART_Printf("Y=%.2f\n",MPU6050_Yaw);
+	Error_Printf("P=%.2f\n",MPU6050_Pitch);
+	Error_Printf("R=%.2f\n",MPU6050_Roll);
+	Error_Printf("Y=%.2f\n",MPU6050_Yaw);
 
-//	USART_UART_Printf("X=%d\n",MPU6050_G_X);
-//	USART_UART_Printf("Y=%d\n",MPU6050_G_Y);
-//	USART_UART_Printf("Z=%d\n",MPU6050_G_Z);
+//	Error_Printf("X=%d\n",MPU6050_G_X);
+//	Error_Printf("Y=%d\n",MPU6050_G_Y);
+//	Error_Printf("Z=%d\n",MPU6050_G_Z);
 }
 
 

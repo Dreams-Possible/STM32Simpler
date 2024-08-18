@@ -10,13 +10,13 @@ uint8_t MainInitization_Flag=0;
 void MainInitization()
 {
 	//开始初始化
-	USART_UART_Printf("InitStt\n");
+	UART1_Printf("InitStt\n");
 
 	//定时器初始化
 	Timer_Initialization();
 
 	//串口接收初始化
-	USART_UART_Initialization();
+	UART1_Initialization();
 
 	//编码器初始化（定时器接收方波）
 	Encoders_Initialization();
@@ -31,7 +31,7 @@ void MainInitization()
 	//OLED096_Initialization_IIC();
 
 	//全部初始化完成
-	USART_UART_Printf("InitSucc\n");
+	UART1_Printf("InitSucc\n");
 	MainInitization_Flag=1;
 	//OLED096_Printf_IIC("Run");
 
@@ -64,7 +64,7 @@ void MainSimple()
 
 		W25Qxx_ReadID(&ID);
 		HAL_Delay(500);
-		USART_UART_Printf("ID=%d\n",ID);
+		UART1_Printf("ID=%d\n",ID);
 		HAL_Delay(500);
 
 
