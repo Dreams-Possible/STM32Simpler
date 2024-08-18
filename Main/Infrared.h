@@ -3,6 +3,9 @@
 #define Infrared_H
 #include"SimpleMain.h"
 
+//该驱动代码已经过时
+//目前已不再进行维护
+
 
 //红外检测结果
 extern uint8_t Infrared_S1;//S1检测结果

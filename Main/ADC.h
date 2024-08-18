@@ -4,6 +4,11 @@
 
 #include"SimpleMain.h"
 
+
+//该驱动代码已经过时
+//目前已不再进行维护
+
+
 //解释所使用的ADC
 extern ADC_HandleTypeDef hadc1;
 

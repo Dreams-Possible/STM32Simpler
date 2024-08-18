@@ -1,6 +1,8 @@
 #include"Controller.h"
 #ifdef Controller_H
 
+//该驱动代码已经过时
+//目前已不再进行维护
 
 //遥控状态
 //0停止，1前进，2后退

@@ -1,6 +1,9 @@
 #include"Infrared.h"
 #ifdef Infrared_H
 
+//该驱动代码已经过时
+//目前已不再进行维护
+
 uint8_t Infrared_S1=0;
 uint8_t Infrared_S2=0;
 uint8_t Infrared_S3=0;

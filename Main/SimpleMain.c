@@ -19,10 +19,10 @@ void MainInitization()
 	USART_UART_Initialization();
 
 	//编码器初始化（定时器接收方波）
-	Encoder_Initialization();
+	Encoders_Initialization();
 
 	//电机初始化（定时器开启输出PWM）
-	Motor_Initialization();
+	Motors_Initialization();
 
 	//MPU6050初始化
 	//MPU6050_Initialization();

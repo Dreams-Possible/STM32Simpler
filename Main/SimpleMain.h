@@ -28,14 +28,14 @@
 #include"OLED096_GUI.h"
 
 
-#include"Encoder.h"
-#include"Motor.h"
+#include"Encoders.h"
+#include"Motors.h"
 #include"Controller.h"
 
 #include"MPU6050.h"
 
-#include"LED.h"
-#include"Key.h"
+#include"LEDs.h"
+#include"Keys.h"
 #include"USART_JDY31.h"
 #include"SPI.h"
 #include"W25Qxx.h"

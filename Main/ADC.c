@@ -1,6 +1,10 @@
 #include"ADC.h"
 #ifdef ADC_H
 
+
+//该驱动代码已经过时
+//目前已不再进行维护
+
 uint16_t ADC1_Data[ADC_Number]=
 {
 	0

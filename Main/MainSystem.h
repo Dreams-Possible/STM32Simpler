@@ -4,7 +4,8 @@
 
 #include"SimpleMain.h"
 
-
+//该驱动代码已经过时
+//目前已不再进行维护
 
 
 #endif//MainSystem_H

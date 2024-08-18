@@ -3,7 +3,8 @@
 #define USART_OpenMV_H
 #include"SimpleMain.h"
 
-
+//该驱动代码已经过时
+//目前已不再进行维护
 
 //串口配置：默认波特率115200
 //打开DMA的RX和TX通道，其余默认即可

@@ -3,6 +3,8 @@
 #define SYN6288_H
 #include"SimpleMain.h"
 
+//该驱动代码已经过时
+//目前已不再进行维护
 
 
 //串口配置：默认波特率9600

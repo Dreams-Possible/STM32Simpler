@@ -25,21 +25,23 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	#if 1
 	//MPU6050定时刷新数据
-	if(GPIO_Pin==MPU6050_Interrupt&&MPU6050_State)
+	if(GPIO_Pin==MPU6050_Interrupt)
 	{
-		//不一定要全部读取，只需要读取需要的数据即可
-		//MPU6050读取温度值
-		//MPU6050_GetTemperature();
+		if(MPU6050_State)
+		{
+			//不一定要全部读取，只需要读取需要的数据即可
+			//MPU6050读取温度值
+			//MPU6050_GetTemperature();
 
-		//MPU6050读取陀螺仪值
-		//MPU6050_GetGyroscope();
+			//MPU6050读取陀螺仪值
+			//MPU6050_GetGyroscope();
 
-		//MPU6050读取加速度值
-		//MPU6050_GetAccelerometer();
+			//MPU6050读取加速度值
+			//MPU6050_GetAccelerometer();
 
-		//MPU6050读取姿态角数据
-		MPU6050_GetAttitudeAngle();
-
+			//MPU6050读取姿态角数据
+			MPU6050_GetAttitudeAngle();
+		}
 	}
 	#endif
 }

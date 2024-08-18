@@ -4,6 +4,10 @@
 
 #include"SimpleMain.h"
 
+//该驱动代码已经过时
+//目前已不再进行维护
+
+
 //解释所用的定时器定时器（通常需要一个定时器）
 extern TIM_HandleTypeDef htim4;
 

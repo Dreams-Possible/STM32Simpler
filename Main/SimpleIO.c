@@ -1,6 +1,8 @@
 #include"SimpleIO.h"
 #ifdef SimpleIO_H
 
+//该驱动代码已经过时
+//目前已不再进行维护
 
 //LED1电平翻转
 void SimpleIO_LED1()

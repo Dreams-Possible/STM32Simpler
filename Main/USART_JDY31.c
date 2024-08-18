@@ -1,6 +1,10 @@
 #include"USART_JDY31.h"
 #ifdef USART_JDY31_H
 
+//该驱动代码已经过时
+//目前已不再进行维护
+
+
 //串口接收的数据（最大暂定32个字节）
 uint8_t USART_JDY31_Data[32]=
 		{

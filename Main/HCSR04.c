@@ -1,6 +1,8 @@
 #include"HCSR04.h"
 #ifdef HCSR04_H
 
+//该驱动代码已经过时
+//目前已不再进行维护
 
 //测得的距离
 float HCSR04_Distance=0;

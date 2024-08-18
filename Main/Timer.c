@@ -44,15 +44,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*htim)
 				Timer1_Flag1=1;
 
 				//按键扫描
-				Key_Scan_All();
+				Keys_Scan();
 
 				//每0.1秒进入一次中断
 				if(Timer1_Counter1%100==0)
 				{
 
 					//LED流水灯Dmeo
-					LED_Dmeo();
-					Encoder_Detection();
+					LEDs_Dmeo();
+					Encoders_Detection();
 
 					//每1秒进入一次中断
 					if(Timer1_Counter1%1000==0)

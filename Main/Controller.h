@@ -4,6 +4,9 @@
 
 #include"SimpleMain.h"
 
+//该驱动代码已经过时
+//目前已不再进行维护
+
 //重定义速度等级
 #define SpeedLevel_Low 8
 #define SpeedLevel_Medium 10
