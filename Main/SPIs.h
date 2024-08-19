@@ -9,8 +9,10 @@
 //
 
 //如果使用软件SPIs
-//将任意几引脚名称设置为SPI_NSS_x，SPI_MOSI，SPI_MISO
+//将任意几引脚名称设置为SPIx_CS，SPI_MOSI，SPI_MISO
 //引脚具体配置为，默认配置即可
+
+
 
 //如果使用硬件SPIs
 //使用默认配置设置硬件SPIs即可
@@ -46,30 +48,30 @@
 //根据未选中状态设置片选引脚初始电平和上下拉状态
 
 //设备1选中状态（0时选中，1时选中）
-#define SPI_CSMD_1 0
+#define SPI1_CSMD 0
 //设备2选中状态（0时选中，1时选中）
-#define SPI_CSMD_2 0
+#define SPI2_CSMD 0
 
 //重定义NSS
 //设备1
-#define SPI_CS_1(x) HAL_GPIO_WritePin(SPI_CS_1_GPIO_Port,SPI_CS_1_Pin,(GPIO_PinState)(x))
+#define SPI1_CS(x) HAL_GPIO_WritePin(SPI1_CS_GPIO_Port,SPI1_CS_Pin,(GPIO_PinState)(x))
 //设备2
-#define SPI_CS_2(x) HAL_GPIO_WritePin(SPI_CS_2_GPIO_Port,SPI_CS_2_Pin,(GPIO_PinState)(x))
+#define SPI2_CS(x) HAL_GPIO_WritePin(SPI2_CS_GPIO_Port,SPI2_CS_Pin,(GPIO_PinState)(x))
 //空字节（用来辅助接收字节）
 #define SPI_NoneByte 0
 
 
 //设备1SPI开始
-void SPI_Start_1();
+void SPI1_Start();
 
 //设备2SPI开始
-void SPI_Start_2();
+void SPI2_Start();
 
 //设备1SPI结束
-void SPI_End_1();
+void SPI1_End();
 
 //设备2SPI结束
-void SPI_End_2();
+void SPI2_End();
 
 
 //发送数据
@@ -101,10 +103,15 @@ uint8_t SPI_ExchangeByte(uint8_t Byte);
 //重定义SCK
 #define SPI_SCK(x) HAL_GPIO_WritePin(SPI_SCK_GPIO_Port,SPI_SCK_Pin,(GPIO_PinState)(x))
 
-//时钟极性（0时不活跃，1时不活跃）
-#define CPOL 0
-//时钟相位（在时钟信号SCK的奇数个，1第二个跳变沿采样）
-#define CPHA 0
+//设备1的时钟极性（0时不活跃，1时不活跃）
+#define SPI1_CPOL 0
+//设备1的时钟相位（在时钟信号SCK的奇数个，1第二个跳变沿采样）
+#define SPI1_CPHA 0
+
+//设备2的时钟极性（0时不活跃，1时不活跃）
+#define SPI2_CPOL 0
+//设备2的时钟相位（在时钟信号SCK的奇数个，1第二个跳变沿采样）
+#define SPI2_CPHA 0
 
 #endif//SPIs_Software
 

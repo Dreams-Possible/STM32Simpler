@@ -3,12 +3,23 @@
 #define ServoMotors_H
 #include"SimpleMain.h"
 
+//配置如下
+////////////////////////////////////////////////////////////////
+//
+
+//通常需要一个定时器的两个通道
+//预分频系数72-1，计数周期20000-1，频率均为50
+
+//
+////////////////////////////////////////////////////////////////
+//结束配置
+
 
 //解释所使用的定时器（通常只需要一个定时器）
 extern TIM_HandleTypeDef htim2;
 
 //重定义角度控制所用的定时器和通道（通常需要一个定时器的两个通道）
-//预分频系数，计数周期，频率均为
+//预分频系数72-1，计数周期20000-1，频率均为50
 #define ServoMotors_Timer1 htim2
 #define ServoMotor1_Timer TIM_CHANNEL_1
 #define ServoMotor2_Timer TIM_CHANNEL_2

@@ -4,43 +4,31 @@
 ////////////////////////////////
 
 //声明检测到的角度
-float MPU6050_Pitch=0;
-float MPU6050_Roll=0;
-float MPU6050_Yaw=0;
+float volatile MPU6050_Pitch=0;
+float volatile MPU6050_Roll=0;
+float volatile MPU6050_Yaw=0;
 
 //声明检测到的陀螺仪值
-int16_t MPU6050_G_X=0;
-int16_t MPU6050_G_Y=0;
-int16_t MPU6050_G_Z=0;
+int16_t volatile MPU6050_G_X=0;
+int16_t volatile MPU6050_G_Y=0;
+int16_t volatile MPU6050_G_Z=0;
 
 //声明检测到的加速度
-int16_t MPU6050_A_X=0;
-int16_t MPU6050_A_Y=0;
-int16_t MPU6050_A_Z=0;
+int16_t volatile MPU6050_A_X=0;
+int16_t volatile MPU6050_A_Y=0;
+int16_t volatile MPU6050_A_Z=0;
 
 //声明检测到的温度值
-int16_t MPU6050_Temperature=0;
+int16_t volatile MPU6050_Temperature=0;
 
 //MPU6050状态声明（0不可用，1可用）
-uint8_t MPU6050_State=0;
+uint8_t volatile MPU6050_State=0;
+
+//MPU6050数据状态声明（0不可用，1可用）
+uint8_t volatile MPU6050_DataFlag=0;
 
 
 
-
-/*
-//MPU6050写字节（寄存器地址，要向该地址写入的数据）
-int8_t MPU6050_SendData(uint8_t RegisterAddress,uint8_t Data)
-{
-	return IIC_SendData(MPU6050_Address,RegisterAddress,Data);
-}
-
-//MPU6050读字节（设备地址，寄存器地址）
-int8_t MPU6050_ReadData(uint8_t RegisterAddress)
-{
-	return IIC_ReadData(MPU6050_Address,RegisterAddress);
-}
-
-*/
 
 //MPU6050初始化
 void MPU6050_Initialization()
@@ -62,6 +50,12 @@ void MPU6050_Initialization()
 	MPU6050_State=1;
 	Error_Printf("M6IntSc\n");
 }
+
+
+
+//如果是全局变量模式
+#ifdef MPU6050_GlobalMode
+
 
 //MPU6050读取温度值
 void MPU6050_GetTemperature()
@@ -88,7 +82,7 @@ void MPU6050_GetGyroscope()
 //MPU6050读取加速度值
 void MPU6050_GetAccelerometer()
 {
-	MPU_Get_Accelerometer(&MPU6050_A_X,&MPU6050_A_Y,&MPU6050_A_Z);
+	MPU_Get_Accelerometer((int16_t *)&MPU6050_A_X,(int16_t *)&MPU6050_A_Y,(int16_t *)&MPU6050_A_Z);
 }
 
 //MPU6050读取姿态角数据
@@ -122,6 +116,28 @@ void MPU6050_Printf()
 }
 
 
+#endif//MPU6050_GlobalMode
+
+//如果是参数传递模式
+#ifdef MPU6050_ParameterMode
+
+//MPU6050姿态角数值显示
+void MPU6050_Printf(float MPU6050_Pitch,float MPU6050_Roll,float MPU6050_Yaw)
+{
+	Error_Printf("P=%.2f\n",MPU6050_Pitch);
+	Error_Printf("R=%.2f\n",MPU6050_Roll);
+	Error_Printf("Y=%.2f\n",MPU6050_Yaw);
+
+
+}
+
+
+
+
+
+#endif//MPU6050_ParameterMode
+
+
 
 //定时刷新数据
 //该部分在ExternalInterrup（外部中断）中
@@ -130,11 +146,14 @@ void MPU6050_Printf()
 //以上内容为自行补充整合
 
 
+
+//以下内容参考其他历程
+////////////////////////////////
+
+
 //以下是MPU6050的相关函数
 ////////////////////////////////////////////////////////////////
 
-//以下内容参考官方历程
-////////////////////////////////
 
 //设置MPU6050陀螺仪传感器满量程范围
 //fsr:0,±250dps;1,±500dps;2,±1000dps;3,±2000dps
@@ -265,9 +284,6 @@ uint8_t MPU_Get_Accelerometer(short *ax,short *ay,short *az)
 
 //以下是MPU6050的DMP库相关的函数
 ////////////////////////////////////////////////////////////////
-
-//以下内容参考官方历程
-////////////////////////////////
 
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
@@ -461,3 +477,6 @@ int MPU6050_DMP_Get_Data(float *pitch, float *roll, float *yaw)
 ////////////////////////////////////////////////////////////////
 //以上是MPU6050的DMP库相关的函数
 
+
+////////////////////////////////
+//以上内容参考其他历程

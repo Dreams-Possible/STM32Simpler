@@ -53,7 +53,7 @@ extern uint8_t Timer1_Flag1;
 void Timer_Initialization();
 
 //程序每秒运行次数显示
-void Timer_Printf();
+void Timer_Record(uint8_t Flag);
 
 //结束定时器配置
 ////////////////////////////////////////////////////////////////

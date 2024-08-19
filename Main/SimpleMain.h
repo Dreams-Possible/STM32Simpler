@@ -13,7 +13,7 @@
 #include<string.h>//包含内存复制的头文件
 #include<math.h>//包含数学公式的头文件
 #include<stdint.h>//包含格式定义的头文件
-#include<iconv.h>//包含格式转换的头文件
+//#include<iconv.h>//包含格式转换的头文件
 //引入驱动文件
 #include"SimpleMain.h"
 
@@ -48,10 +48,19 @@ void MainInitization();
 void MainSimple();
 
 //初始化完成标志
-extern uint8_t MainInitization_Flag;
+extern uint8_t volatile MainInitization_Flag;
 
 
+//用于在Main.c中替换主函数
+void Main_Simple();
 
+//全局初始化
+//所有的初始化函数放在这里
+void Main_Initization();
+
+//主函数
+//可以在这里写Main中的While函数
+void Main_While();
 
 
 
@@ -59,7 +68,7 @@ extern uint8_t MainInitization_Flag;
 
 //在这里重定义一些可选的简化项目
 
-/*
+
 typedef uint8_t u8;
 typedef int8_t i8;
 
@@ -68,7 +77,6 @@ typedef int16_t i16;
 
 typedef uint32_t u32;
 typedef int32_t i32;
-*/
 
 
 

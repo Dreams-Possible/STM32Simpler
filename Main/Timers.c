@@ -58,7 +58,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*htim)
 					if(Timer1_Counter1%1000==0)
 					{
 						//程序每秒运行次数显示
-						Timer_Printf();
+						Timer_Record(1);
 					}
 				}
 			}
@@ -69,10 +69,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*htim)
 
 
 //程序每秒运行次数显示
-void Timer_Printf()
+void Timer_Record(uint8_t Flag)
 {
-	Error_Printf("T1=%d\n",Timer1_FPS1);
-	Timer1_FPS1=0;
+	//显示帧数
+	if(Flag)
+	{
+		Error_Printf("T1=%d\n",Timer1_FPS1);
+		Timer1_FPS1=0;
+	}
+	else//每次运行后调用
+	{
+		++Timer1_FPS1;
+	}
+
 }
 
 

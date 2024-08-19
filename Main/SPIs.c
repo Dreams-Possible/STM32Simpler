@@ -8,30 +8,30 @@
 //
 
 //设备1SPI开始
-void SPI_Start_1()
+void SPI1_Start()
 {
-	SPI_CS_1(SPI_CSMD_1);//选中设备
+	SPI1_CS(SPI1_CSMD);//选中设备
 }
 
 
 //设备1SPI结束
-void SPI_End_1()
+void SPI1_End()
 {
-	SPI_CS_1(1-SPI_CSMD_1);//取消选中设备
+	SPI1_CS(1-SPI1_CSMD);//取消选中设备
 }
 
 
 //设备2SPI开始
-void SPI_Start_2()
+void SPI2_Start()
 {
-	SPI_CS_2(SPI_CSMD_2);//选中设备
+	SPI2_CS(SPI2_CSMD);//选中设备
 }
 
 
 //设备2SPI结束
-void SPI_End_2()
+void SPI2_End()
 {
-	SPI_CS_2(1-SPI_CSMD_2);//取消选中设备
+	SPI2_CS(1-SPI2_CSMD);//取消选中设备
 }
 
 
@@ -52,7 +52,7 @@ void SPI_End_2()
 //uint8_t SPI_Initialization()
 //{
 //	SPI_End();//SPI结束
-//	SPI_SCK(CPOL);//时钟状态：不活跃
+//	SPI_SCK(SPI1_CPOL);//时钟状态：不活跃
 //}
 
 
@@ -64,8 +64,8 @@ void SPI_OutByte(uint8_t Byte)
     for(a=0;a<8;++a)
     {
     	SPI_MOSI(Byte&(0x80>>a));//将16进制数一位一位取出来
-    	SPI_SCK(1-CPOL);//时钟状态：活跃
-    	SPI_SCK(CPOL);//时钟状态：不活跃
+    	SPI_SCK(1-SPI1_CPOL);//时钟状态：活跃
+    	SPI_SCK(SPI1_CPOL);//时钟状态：不活跃
     }
 }
 
@@ -76,12 +76,12 @@ uint8_t SPI_ExchangeByte(uint8_t Byte)
     {
     	SPI_MOSI(Byte&0x80);//SPI特性接受需同时发送（发送什么无所谓）
     	Byte<<=1;
-    	SPI_SCK(1-CPOL);//时钟状态：活跃
+    	SPI_SCK(1-SPI1_CPOL);//时钟状态：活跃
 		if(SPI_MISO)
 		{
 			Byte|=0x01;//将16进制数一位一位读入
 		}
-		SPI_SCK(CPOL);//时钟状态：不活跃
+		SPI_SCK(SPI1_CPOL);//时钟状态：不活跃
     }
     return Byte;
 }

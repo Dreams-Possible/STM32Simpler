@@ -3,35 +3,48 @@
 
 #include"SimpleMain.h"
 
+
+
+
+//配置如下
+////////////////////////////////////////////////////////////////
+//
+
+//配置好IIC相关引脚即可
+//尽量配置好MPU6050的外部中断引脚
+
+//MPU6050文件夹中除MPU6050.c，MPU6050.h以外，其余为官方历程文件，仅进行了部分修改
+
+//
+////////////////////////////////////////////////////////////////
+//结束配置
+
+
+//选择MPU6050读取模式
+////////////////////////////////////////////////////////////////
+//
+
+//全局变量模式
+//#define MPU6050_GlobalMode
+//参数传递模式
+#define MPU6050_ParameterMode
+
+//
+////////////////////////////////////////////////////////////////
+//结束选择MPU6050读取模式
+
+
 //以下内容为自行补充整合
 ////////////////////////////////
 
+//以下是MPU6050的所有函数
+////////////////////////////////////////////////////////////////
 
+
+//公共函数部分
+//将驱动重定义到IICs
 #define MPU6050_SendData(RegisterAddress,Data) IIC1_WriteByte(MPU6050_Address,RegisterAddress,Data)
-
 #define MPU6050_ReadData(RegisterAddress,DataLength,Data) IIC1_ReadData(MPU6050_Address,RegisterAddress,DataLength,Data)
-
-
-//声明检测到的角度
-extern float MPU6050_Pitch;
-extern float MPU6050_Roll;
-extern float MPU6050_Yaw;
-
-//声明检测到的陀螺仪值
-extern int16_t MPU6050_G_X;
-extern int16_t MPU6050_G_Y;
-extern int16_t MPU6050_G_Z;
-
-//声明检测到的加速度
-extern int16_t MPU6050_A_X;
-extern int16_t MPU6050_A_Y;
-extern int16_t MPU6050_A_Z;
-
-//声明检测到的温度值
-extern int16_t MPU6050_Temperature;
-
-//MPU6050状态声明（0不可用，1可用）
-extern uint8_t MPU6050_State;
 
 //MPU6050写数据（寄存器地址，要向该地址写入的数据）
 int8_t MPU6050_Send(uint8_t RegisterAddress,uint8_t Data);
@@ -41,6 +54,35 @@ int8_t MPU6050_Read(uint8_t RegisterAddress);
 
 //MPU6050初始化
 void MPU6050_Initialization();
+
+//MPU6050状态声明（0不可用，1可用）
+extern uint8_t volatile MPU6050_State;
+
+//MPU6050数据状态声明（0不可用，1可用）
+extern uint8_t volatile MPU6050_DataFlag;
+
+
+//如果是全局变量模式
+#ifdef MPU6050_GlobalMode
+//声明检测到的角度
+extern float volatile MPU6050_Pitch;
+extern float volatile MPU6050_Roll;
+extern float volatile MPU6050_Yaw;
+
+//声明检测到的陀螺仪值
+extern int16_t volatile MPU6050_G_X;
+extern int16_t volatile MPU6050_G_Y;
+extern int16_t volatile MPU6050_G_Z;
+
+//声明检测到的加速度
+extern int16_t volatile MPU6050_A_X;
+extern int16_t volatile MPU6050_A_Y;
+extern int16_t volatile MPU6050_A_Z;
+
+//声明检测到的温度值
+extern int16_t volatile MPU6050_Temperature;
+
+
 
 //MPU6050读取温度值
 void MPU6050_GetTemperature();
@@ -56,12 +98,46 @@ void MPU6050_GetAttitudeAngle();
 
 //MPU6050姿态角数值显示
 void MPU6050_Printf();
+#endif//MPU6050_GlobalMode
+
+
+
+//如果是参数传递模式
+#ifdef MPU6050_ParameterMode
+
+//MPU6050读取温度值
+#define MPU6050_GetTemperature MPU_Get_Temperature
+
+//MPU6050读取陀螺仪值
+#define MPU6050_GetGyroscope MPU_Get_Gyroscope
+
+//MPU6050读取加速度值
+#define MPU6050_GetAccelerometer MPU_Get_Accelerometer
+
+//MPU6050读取姿态角数据
+#define MPU6050_GetAttitudeAngle MPU6050_DMP_Get_Data
+
+//MPU6050姿态角数值显示
+void MPU6050_Printf(float MPU6050_Pitch,float MPU6050_Roll,float MPU6050_Yaw);
+
+
+#endif//MPU6050_ParameterMode
+
+
+
+
+//以上是MPU6050的所有函数
+////////////////////////////////////////////////////////////////
 
 ////////////////////////////////
 //以上内容为自行补充整合
 
 
-//以下是MPU6050的相关函数
+
+//以下内容包含其他历程
+////////////////////////////////
+
+//以下是MPU6050的相关定义
 ////////////////////////////////////////////////////////////////
 
 //重定义设备地址
@@ -146,7 +222,7 @@ uint8_t MPU_Get_Gyroscope(short *gx,short *gy,short *gz);
 uint8_t MPU_Get_Accelerometer(short *ax,short *ay,short *az);
 
 ////////////////////////////////////////////////////////////////
-//以上是MPU6050的相关函数
+//以上是MPU6050的相关定义
 
 
 //以下是MPU6050的DMP库相关的定义
@@ -159,6 +235,11 @@ int MPU6050_DMP_Get_Data(float *pitch, float *roll, float *yaw);
 
 ////////////////////////////////////////////////////////////////
 //以上是MPU6050的DMP库相关的定义
+
+
+
+////////////////////////////////
+//以上内容包含其他历程
 
 #endif
 

@@ -2,20 +2,41 @@
 #ifdef SimpleMain_H
 
 //初始化完成标志
-uint8_t MainInitization_Flag=0;
+uint8_t volatile MainInitization_Flag=0;
+
+
+//用于在Main.c中替换主函数
+void Main_Simple()
+{
+	//全局初始化
+	Main_Initization();
+	//初始化完成标准位
+	MainInitization_Flag=1;
+	while (1)
+	{
+		//主函数
+		Main_While();
+		//如果启用了定时器
+		//记录秒程序运行次数
+		#ifdef Timers_H
+		Timer_Record(0);
+		#endif//Timers_H
+	}
+}
+
 
 
 //全局初始化
 //所有的初始化函数放在这里
-void MainInitization()
+void Main_Initization()
 {
 	//开始初始化
-	UART1_Printf("InitStt\n");
+	Error_Printf("InitStt\n");
 
 	//定时器初始化
 	Timer_Initialization();
 
-	//串口接收初始化
+	//串口1接收初始化
 	UART1_Initialization();
 
 	//编码器初始化（定时器接收方波）
@@ -31,47 +52,27 @@ void MainInitization()
 	//OLED096_Initialization_IIC();
 
 	//全部初始化完成
-	UART1_Printf("InitSucc\n");
-	MainInitization_Flag=1;
-	//OLED096_Printf_IIC("Run");
+	Error_Printf("InitSucc\n");
+	//
 
 }
 
 
+//主函数
 //可以在这里写Main中的While函数
-//效果等同于在main.c中写
-void MainSimple()
+void Main_While()
 {
-//
-//	MotorSpeed_1=50;
-//	MotorSpeed_2=50;
-//	MotorSpeed_3=50;
-//	MotorSpeed_4=50;
-//
-//	Motor_Driver();
-
 	uint32_t ID=0;
 
-	while(1)
-	{
-
-
-
-		//Encoder_Printf();
-		//USART_JDY31_Printf("here\n");
-		//MPU6050数值显示
-		//MPU6050_Printf();
-
-		W25Qxx_ReadID(&ID);
-		HAL_Delay(500);
-		UART1_Printf("ID=%d\n",ID);
-		HAL_Delay(500);
-
-
-		++Timer1_FPS1;
-	}
+	W25Qx_ReadID(&ID);
+	HAL_Delay(500);
+	Error_Printf("ID=%d\n",ID);
+	HAL_Delay(500);
 
 }
+
+
+
 
 
 
