@@ -12,11 +12,11 @@
 //将驱动重定义到SPIs
 #define W25Qx_SPI_Start SPI2_Start
 #define W25Qx_SPI_End SPI2_End
-#define W25Qx_SPI_ExchangeByte SPI_ExchangeByte
-#define W25Qx_SPI_NoneByte SPI_NoneByte
+#define W25Qx_SPI_ExchangeByte SPI2_ExchangeByte
+#define W25Qx_SPI_NoneByte SPI2_NoneByte
 
 //W25Qx读ID
-void W25Qx_ReadID(uint32_t *ID);
+uint32_t W25Qx_ReadID();
 
 //W25Qx写使能（每次写之前都需要）
 void W25Qx_WriteEnable(void);

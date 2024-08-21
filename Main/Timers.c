@@ -29,7 +29,7 @@ void Timer_Initialization()
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*htim)
 {
 	#if 1
-	if(MainInitization_Flag)
+	if(Main_InitizationFlag)
 	{
 		//每0.001秒（一毫秒）进入一次中断（不建议需要周期性执行的程序放在此处执行，可能造成中断嵌套）
 		if(htim->Instance==Timer_1.Instance)
@@ -74,7 +74,7 @@ void Timer_Record(uint8_t Flag)
 	//显示帧数
 	if(Flag)
 	{
-		Error_Printf("T1=%d\n",Timer1_FPS1);
+		Error_Printf("T_F=%d\n",Timer1_FPS1);
 		Timer1_FPS1=0;
 	}
 	else//每次运行后调用

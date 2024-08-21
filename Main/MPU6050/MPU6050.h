@@ -25,9 +25,9 @@
 //
 
 //全局变量模式
-//#define MPU6050_GlobalMode
+#define MPU6050_GlobalMode
 //参数传递模式
-#define MPU6050_ParameterMode
+//#define MPU6050_ParameterMode
 
 //
 ////////////////////////////////////////////////////////////////
@@ -43,8 +43,12 @@
 
 //公共函数部分
 //将驱动重定义到IICs
-#define MPU6050_SendData(RegisterAddress,Data) IIC1_WriteByte(MPU6050_Address,RegisterAddress,Data)
-#define MPU6050_ReadData(RegisterAddress,DataLength,Data) IIC1_ReadData(MPU6050_Address,RegisterAddress,DataLength,Data)
+#define MPU6050_SendData(RegisterAddress,Data) IIC2_WriteByte(MPU6050_Address,RegisterAddress,Data)
+#define MPU6050_ReadData(RegisterAddress,DataLength,Data) IIC2_ReadData(MPU6050_Address,RegisterAddress,DataLength,Data)
+
+#define mpu6050_i2c_write IIC2_WriteData
+#define mpu6050_i2c_read IIC2_ReadData
+
 
 //MPU6050写数据（寄存器地址，要向该地址写入的数据）
 int8_t MPU6050_Send(uint8_t RegisterAddress,uint8_t Data);
@@ -80,7 +84,7 @@ extern int16_t volatile MPU6050_A_Y;
 extern int16_t volatile MPU6050_A_Z;
 
 //声明检测到的温度值
-extern int16_t volatile MPU6050_Temperature;
+extern float volatile MPU6050_Temperature;
 
 
 
@@ -106,16 +110,16 @@ void MPU6050_Printf();
 #ifdef MPU6050_ParameterMode
 
 //MPU6050读取温度值
-#define MPU6050_GetTemperature MPU_Get_Temperature
+float MPU6050_GetTemperature();
 
 //MPU6050读取陀螺仪值
-#define MPU6050_GetGyroscope MPU_Get_Gyroscope
+void MPU6050_GetGyroscope(float*MPU6050_G_X,float*MPU6050_G_Y,float*MPU6050_G_Z);
 
 //MPU6050读取加速度值
-#define MPU6050_GetAccelerometer MPU_Get_Accelerometer
+void MPU6050_GetAccelerometer(int16_t*MPU6050_A_X,int16_t*&MPU6050_A_Y,int16_t*MPU6050_A_Z);
 
 //MPU6050读取姿态角数据
-#define MPU6050_GetAttitudeAngle MPU6050_DMP_Get_Data
+void MPU6050_GetAttitudeAngle(float*MPU6050_Pitch,float*MPU6050_Roll,float*MPU6050_Yaw);
 
 //MPU6050姿态角数值显示
 void MPU6050_Printf(float MPU6050_Pitch,float MPU6050_Roll,float MPU6050_Yaw);
@@ -217,7 +221,7 @@ void MPU6050_Printf(float MPU6050_Pitch,float MPU6050_Roll,float MPU6050_Yaw);
 //初始化MPU6050
 uint8_t MPU_Init(void);
 //读取MPU6050中的数据
-short MPU_Get_Temperature(void);
+float MPU_Get_Temperature(void);
 uint8_t MPU_Get_Gyroscope(short *gx,short *gy,short *gz);
 uint8_t MPU_Get_Accelerometer(short *ax,short *ay,short *az);
 

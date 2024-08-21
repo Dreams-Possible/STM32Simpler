@@ -6,16 +6,19 @@
 #ifdef SPIs_H
 
 //W25Qx读ID
-void W25Qx_ReadID(uint32_t *ID)
+uint32_t W25Qx_ReadID()
 {
+	uint32_t ID=0;
 	W25Qx_SPI_Start();
 	W25Qx_SPI_ExchangeByte(W25Qx_ReadID_BIN);
-	*ID=W25Qx_SPI_ExchangeByte(W25Qx_SPI_NoneByte);
-	*ID<<=8;
-	*ID|=W25Qx_SPI_ExchangeByte(W25Qx_SPI_NoneByte);
-	*ID<<=8;
-	*ID|=W25Qx_SPI_ExchangeByte(W25Qx_SPI_NoneByte);
+	ID=W25Qx_SPI_ExchangeByte(W25Qx_SPI_NoneByte);
+	ID<<=8;
+	ID|=W25Qx_SPI_ExchangeByte(W25Qx_SPI_NoneByte);
+	ID<<=8;
+	ID|=W25Qx_SPI_ExchangeByte(W25Qx_SPI_NoneByte);
 	W25Qx_SPI_End();
+	Error_Printf("W2_ID=%d\n",ID);
+	return ID;
 }
 
 //W25Qx写使能（每次写之前都需要）

@@ -17,15 +17,20 @@
 //引入驱动文件
 #include"SimpleMain.h"
 
+#include"LEDs.h"
+#include"Keys.h"
 #include"UARTs.h"
 #include"Timers.h"
 #include"IICs.h"
-#include"SimpleOLED096_IIC.h"
+#include"SPIs.h"
 
-#include"OLED096_IIC.h"
+#include"OLED096_Character.h"
+#include"SimpleOLED096s_IIC.h"
+#include"SimpleOLED096s_SPI.h"
 
-
-#include"OLED096_GUI.h"
+#include"OLED096s_IIC.h"
+#include"OLED096s_SPI.h"
+#include"OLED096s_GUI.h"
 
 
 #include"Encoders.h"
@@ -33,10 +38,6 @@
 
 #include"MPU6050.h"
 
-#include"LEDs.h"
-#include"Keys.h"
-
-#include"SPIs.h"
 #include"W25Qx.h"
 
 //全局初始化
@@ -48,7 +49,7 @@ void MainInitization();
 void MainSimple();
 
 //初始化完成标志
-extern uint8_t volatile MainInitization_Flag;
+extern uint8_t volatile Main_InitizationFlag;
 
 
 //用于在Main.c中替换主函数

@@ -19,7 +19,7 @@ int16_t volatile MPU6050_A_Y=0;
 int16_t volatile MPU6050_A_Z=0;
 
 //声明检测到的温度值
-int16_t volatile MPU6050_Temperature=0;
+float volatile MPU6050_Temperature=0;
 
 //MPU6050状态声明（0不可用，1可用）
 uint8_t volatile MPU6050_State=0;
@@ -60,45 +60,57 @@ void MPU6050_Initialization()
 //MPU6050读取温度值
 void MPU6050_GetTemperature()
 {
-	MPU6050_Temperature=MPU_Get_Temperature();
+	if(MPU6050_DataFlag)
+	{
+		MPU6050_Temperature=MPU_Get_Temperature();
+	}
+
 }
 
 //MPU6050读取陀螺仪值
 void MPU6050_GetGyroscope()
 {
-	//滤波
-	static int16_t MPU6050_G_X_New=0;
-	static int16_t MPU6050_G_Y_New=0;
-	static int16_t MPU6050_G_Z_New=0;
+	if(MPU6050_DataFlag)
+	{
+		//滤波
+		static int16_t MPU6050_G_X_New=0;
+		static int16_t MPU6050_G_Y_New=0;
+		static int16_t MPU6050_G_Z_New=0;
 
-	MPU_Get_Gyroscope(&MPU6050_G_X_New,&MPU6050_G_Y_New,&MPU6050_G_Z_New);
+		MPU_Get_Gyroscope(&MPU6050_G_X_New,&MPU6050_G_Y_New,&MPU6050_G_Z_New);
 
-	MPU6050_G_X=0.3*MPU6050_G_X+0.7*MPU6050_G_X_New;
-	MPU6050_G_Y=0.3*MPU6050_G_Y+0.7*MPU6050_G_Y_New;
-	MPU6050_G_Z=0.3*MPU6050_G_Z+0.7*MPU6050_G_Z_New;
-
+		MPU6050_G_X=0.3*MPU6050_G_X+0.7*MPU6050_G_X_New;
+		MPU6050_G_Y=0.3*MPU6050_G_Y+0.7*MPU6050_G_Y_New;
+		MPU6050_G_Z=0.3*MPU6050_G_Z+0.7*MPU6050_G_Z_New;
+	}
 }
 
 //MPU6050读取加速度值
 void MPU6050_GetAccelerometer()
 {
-	MPU_Get_Accelerometer((int16_t *)&MPU6050_A_X,(int16_t *)&MPU6050_A_Y,(int16_t *)&MPU6050_A_Z);
+	if(MPU6050_DataFlag)
+	{
+		MPU_Get_Accelerometer((int16_t *)&MPU6050_A_X,(int16_t *)&MPU6050_A_Y,(int16_t *)&MPU6050_A_Z);
+	}
 }
 
 //MPU6050读取姿态角数据
 void MPU6050_GetAttitudeAngle()
 {
-	//滤波
-	static float MPU6050_Pitch_New=0;
-	static float MPU6050_Roll_New=0;
-	static float MPU6050_Yaw_New=0;
+	if(MPU6050_DataFlag)
+	{
+		//滤波
+		static float MPU6050_Pitch_New=0;
+		static float MPU6050_Roll_New=0;
+		static float MPU6050_Yaw_New=0;
 
-	MPU6050_DMP_Get_Data(&MPU6050_Pitch_New,&MPU6050_Roll_New,&MPU6050_Yaw_New);
+		MPU6050_DMP_Get_Data(&MPU6050_Pitch_New,&MPU6050_Roll_New,&MPU6050_Yaw_New);
 
 
-	MPU6050_Pitch=0.3*MPU6050_Pitch+0.7*MPU6050_Pitch_New;
-	MPU6050_Roll=0.3*MPU6050_Roll+0.7*MPU6050_Roll_New;
-	MPU6050_Yaw=0.3*MPU6050_Yaw+0.7*MPU6050_Yaw_New;
+		MPU6050_Pitch=0.3*MPU6050_Pitch+0.7*MPU6050_Pitch_New;
+		MPU6050_Roll=0.3*MPU6050_Roll+0.7*MPU6050_Roll_New;
+		MPU6050_Yaw=0.3*MPU6050_Yaw+0.7*MPU6050_Yaw_New;
+	}
 
 }
 
@@ -120,6 +132,67 @@ void MPU6050_Printf()
 
 //如果是参数传递模式
 #ifdef MPU6050_ParameterMode
+
+
+
+//MPU6050读取温度值
+float MPU6050_GetTemperature()
+{
+	if(MPU6050_DataFlag)
+	{
+		return MPU_Get_Temperature();
+	}
+
+}
+
+//MPU6050读取陀螺仪值
+void MPU6050_GetGyroscope(float*MPU6050_G_X,float*MPU6050_G_Y,float*MPU6050_G_Z)
+{
+	if(MPU6050_DataFlag)
+	{
+		//滤波
+		static int16_t MPU6050_G_X_New=0;
+		static int16_t MPU6050_G_Y_New=0;
+		static int16_t MPU6050_G_Z_New=0;
+
+		MPU_Get_Gyroscope(&MPU6050_G_X_New,&MPU6050_G_Y_New,&MPU6050_G_Z_New);
+
+		*MPU6050_G_X=0.3*(*MPU6050_G_X)+0.7*MPU6050_G_X_New;
+		*MPU6050_G_Y=0.3*(*MPU6050_G_Y)+0.7*MPU6050_G_Y_New;
+		*MPU6050_G_Z=0.3*(*MPU6050_G_Z)+0.7*MPU6050_G_Z_New;
+	}
+}
+
+//MPU6050读取加速度值
+void MPU6050_GetAccelerometer(int16_t*MPU6050_A_X,int16_t*&MPU6050_A_Y,int16_t*MPU6050_A_Z)
+{
+	if(MPU6050_DataFlag)
+	{
+		MPU_Get_Accelerometer(MPU6050_A_X,MPU6050_A_Y,MPU6050_A_Z);
+	}
+}
+
+//MPU6050读取姿态角数据
+void MPU6050_GetAttitudeAngle(float*MPU6050_Pitch,float*MPU6050_Roll,float*MPU6050_Yaw)
+{
+	if(MPU6050_DataFlag)
+	{
+		//滤波
+		static float MPU6050_Pitch_New=0;
+		static float MPU6050_Roll_New=0;
+		static float MPU6050_Yaw_New=0;
+
+		MPU6050_DMP_Get_Data(&MPU6050_Pitch_New,&MPU6050_Roll_New,&MPU6050_Yaw_New);
+
+
+		*MPU6050_Pitch=0.3*(*MPU6050_Pitch)+0.7*MPU6050_Pitch_New;
+		*MPU6050_Roll=0.3*(*MPU6050_Roll)+0.7*MPU6050_Roll_New;
+		*MPU6050_Yaw=0.3*(*MPU6050_Yaw)+0.7*MPU6050_Yaw_New;
+	}
+
+}
+
+
 
 //MPU6050姿态角数值显示
 void MPU6050_Printf(float MPU6050_Pitch,float MPU6050_Roll,float MPU6050_Yaw)
@@ -233,7 +306,7 @@ uint8_t MPU_Init(void)
 
 //得到温度值
 //返回值:温度值(扩大了100倍)
-short MPU_Get_Temperature(void)
+float MPU_Get_Temperature(void)
 {
     uint8_t buf[2];
     short raw;

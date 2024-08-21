@@ -2,7 +2,7 @@
 #ifdef SimpleMain_H
 
 //初始化完成标志
-uint8_t volatile MainInitization_Flag=0;
+uint8_t volatile Main_InitizationFlag=0;
 
 
 //用于在Main.c中替换主函数
@@ -11,7 +11,7 @@ void Main_Simple()
 	//全局初始化
 	Main_Initization();
 	//初始化完成标准位
-	MainInitization_Flag=1;
+	Main_InitizationFlag=1;
 	while (1)
 	{
 		//主函数
@@ -45,15 +45,16 @@ void Main_Initization()
 	//电机初始化（定时器开启输出PWM）
 	Motors_Initialization();
 
-	//MPU6050初始化
-	//MPU6050_Initialization();
-
 	//屏幕初始化
-	//OLED096_Initialization_IIC();
+	OLED0961_IIC_Initialization();
+	OLED0961_SPI_Initialization();
+
+	//MPU6050初始化
+	MPU6050_Initialization();
+
 
 	//全部初始化完成
 	Error_Printf("InitSucc\n");
-	//
 
 }
 
@@ -62,12 +63,32 @@ void Main_Initization()
 //可以在这里写Main中的While函数
 void Main_While()
 {
-	uint32_t ID=0;
 
-	W25Qx_ReadID(&ID);
-	HAL_Delay(500);
-	Error_Printf("ID=%d\n",ID);
-	HAL_Delay(500);
+	//W25Qx_ReadID();
+
+	MPU6050_GetAttitudeAngle();
+	//MPU6050_Printf();
+
+	OLED0961_GUI_Characters(1,64,"P=%.2f",MPU6050_Pitch);
+	OLED0961_GUI_Characters(1,48,"R=%.2f",MPU6050_Roll);
+	OLED0961_GUI_Characters(1,32,"Y=%.2f",MPU6050_Yaw);
+
+	//OLED0961_GUI_Characters(32,32,"HELLO");
+
+	//OLED0961_GUI_Line(1,1,32,32);
+	OLED0961_IIC_PushFrame();
+	OLED0961_SPI_PushFrame();
+
+	OLED0961_GUI_FrameReset();
+//	OLED0961_IIC_Refresh(0x0f);
+//	OLED0961_SPI_Refresh(0x0f);
+
+
+//	OLED0961_SPI_Printf("P=%.2f",MPU6050_Pitch);
+//	OLED0961_IIC_Printf("R=%.2f",MPU6050_Roll);
+//	OLED0961_SPI_Printf("Y=%.2f",MPU6050_Yaw);
+	//OLED0961_SPI_Printf("");
+
 
 }
 
