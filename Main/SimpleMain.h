@@ -13,40 +13,16 @@
 #include<string.h>//包含内存复制的头文件
 #include<math.h>//包含数学公式的头文件
 #include<stdint.h>//包含格式定义的头文件
-//#include<iconv.h>//包含格式转换的头文件
+
+
 //引入驱动文件
 #include"SimpleMain.h"
 
-#include"LEDs.h"
-#include"Keys.h"
 #include"UARTs.h"
+
 #include"Timers.h"
-#include"IICs.h"
-#include"SPIs.h"
-
-#include"OLED096_Character.h"
-#include"SimpleOLED096s_IIC.h"
-#include"SimpleOLED096s_SPI.h"
-
-#include"OLED096s_IIC.h"
-#include"OLED096s_SPI.h"
-#include"OLED096s_GUI.h"
 
 
-#include"Encoders.h"
-#include"Motors.h"
-
-#include"MPU6050.h"
-
-#include"W25Qx.h"
-
-//全局初始化
-//所有的初始化函数放在这里
-void MainInitization();
-
-//可以在这里写Main函数
-//效果等同于在main.c中写
-void MainSimple();
 
 //初始化完成标志
 extern uint8_t volatile Main_InitizationFlag;

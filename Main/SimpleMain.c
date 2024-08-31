@@ -30,31 +30,23 @@ void Main_Simple()
 //所有的初始化函数放在这里
 void Main_Initization()
 {
+	#ifdef UARTs_H
 	//开始初始化
 	Error_Printf("InitStt\n");
+	#endif//UARTs_H
 
-	//定时器初始化
+	#ifdef Timers_H
 	Timer_Initialization();
+	#endif//Timers_H
 
-	//串口1接收初始化
+	#ifdef UARTs_H
 	UART1_Initialization();
+	#endif//UARTs_H
 
-	//编码器初始化（定时器接收方波）
-	Encoders_Initialization();
-
-	//电机初始化（定时器开启输出PWM）
-	Motors_Initialization();
-
-	//屏幕初始化
-	OLED0961_IIC_Initialization();
-	OLED0961_SPI_Initialization();
-
-	//MPU6050初始化
-	MPU6050_Initialization();
-
-
+	#ifdef UARTs_H
 	//全部初始化完成
 	Error_Printf("InitSucc\n");
+	#endif//UARTs_H
 
 }
 
@@ -64,30 +56,7 @@ void Main_Initization()
 void Main_While()
 {
 
-	//W25Qx_ReadID();
 
-	MPU6050_GetAttitudeAngle();
-	//MPU6050_Printf();
-
-	OLED0961_GUI_Characters(1,64,"P=%.2f",MPU6050_Pitch);
-	OLED0961_GUI_Characters(1,48,"R=%.2f",MPU6050_Roll);
-	OLED0961_GUI_Characters(1,32,"Y=%.2f",MPU6050_Yaw);
-
-	//OLED0961_GUI_Characters(32,32,"HELLO");
-
-	//OLED0961_GUI_Line(1,1,32,32);
-	OLED0961_IIC_PushFrame();
-	OLED0961_SPI_PushFrame();
-
-	OLED0961_GUI_FrameReset();
-//	OLED0961_IIC_Refresh(0x0f);
-//	OLED0961_SPI_Refresh(0x0f);
-
-
-//	OLED0961_SPI_Printf("P=%.2f",MPU6050_Pitch);
-//	OLED0961_IIC_Printf("R=%.2f",MPU6050_Roll);
-//	OLED0961_SPI_Printf("Y=%.2f",MPU6050_Yaw);
-	//OLED0961_SPI_Printf("");
 
 
 }
