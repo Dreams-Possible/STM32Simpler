@@ -33,10 +33,10 @@
 //
 
 //解释所使用的定时器
-extern TIM_HandleTypeDef htim5;
+extern TIM_HandleTypeDef htim1;
 
 //计数器器所用定时器
-#define Timer_1 htim5
+#define Timer_1 htim1
 
 //声明计数器1的计数值1
 extern uint32_t Timer1_Counter1;

@@ -43,16 +43,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*htim)
 				//使用标志位避免中断嵌套
 				Timer1_Flag1=1;
 
+				#ifdef Keys_H
 				//按键扫描
 				Keys_Scan();
+				#endif//Keys_H
 
 				//每0.1秒进入一次中断
 				if(Timer1_Counter1%100==0)
 				{
 
+					#ifdef Keys_H
 					//LED流水灯Dmeo
 					LEDs_Dmeo();
-					//Encoders_Detection();
+					#endif//Keys_H
+
+					#ifdef Encoders_H
+					Encoders_Detection();
+					#endif//Encoders_H
 
 					//每1秒进入一次中断
 					if(Timer1_Counter1%1000==0)
