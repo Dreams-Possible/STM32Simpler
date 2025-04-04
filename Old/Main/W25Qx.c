@@ -52,8 +52,8 @@ void W25Qx_Write(uint32_t Address, uint8_t *Data, uint16_t DataLength)
 
 	W25Qx_SPI_Start();
 	W25Qx_SPI_ExchangeByte(W25Qx_Write_BIN);
-	W25Qx_SPI_ExchangeByte((uint8_t)Address>>16);
-	W25Qx_SPI_ExchangeByte((uint8_t)Address>>8);
+	W25Qx_SPI_ExchangeByte((uint8_t)(Address>>16));
+	W25Qx_SPI_ExchangeByte((uint8_t)(Address>>8));
 	W25Qx_SPI_ExchangeByte((uint8_t)Address);
 	for (uint16_t a=0;a<DataLength;++a)
 	{
@@ -73,8 +73,8 @@ void W25Qx_Clean(uint32_t Address)
 
 	W25Qx_SPI_Start();
 	W25Qx_SPI_ExchangeByte(W25Qx_Clean_BIN);
-	W25Qx_SPI_ExchangeByte((uint8_t)Address>>16);
-	W25Qx_SPI_ExchangeByte((uint8_t)Address>>8);
+	W25Qx_SPI_ExchangeByte((uint8_t)(Address>>16));
+	W25Qx_SPI_ExchangeByte((uint8_t)(Address>>8));
 	W25Qx_SPI_ExchangeByte((uint8_t)Address);
 	W25Qx_SPI_End();
 }
@@ -86,8 +86,8 @@ void W25Qx_ReadData(uint32_t Address, uint8_t *Data, uint32_t DataLength)
 {
 	W25Qx_SPI_Start();
 	W25Qx_SPI_ExchangeByte(W25Qx_Read_BIN);
-	W25Qx_SPI_ExchangeByte((uint8_t)Address>>16);
-	W25Qx_SPI_ExchangeByte((uint8_t)Address>>8);
+	W25Qx_SPI_ExchangeByte((uint8_t)(Address>>16));
+	W25Qx_SPI_ExchangeByte((uint8_t)(Address>>8));
 	W25Qx_SPI_ExchangeByte((uint8_t)Address);
 	for (uint32_t a=0;a<DataLength;++a)
 	{
